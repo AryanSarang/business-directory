@@ -61,15 +61,12 @@ const userSlice = createSlice({
             state.error = null;
         },
         notificationStart: (state) => {
-            state.loading = true;
             state.error = null;
         },
         notificationFailure: (state, action) => {
-            state.loading = false;
             state.error = action.payload;
         },
         notificationSuccess: (state, action) => {
-            state.loading = false;
             state.error = null;
             state.currentUser = action.payload;
         }

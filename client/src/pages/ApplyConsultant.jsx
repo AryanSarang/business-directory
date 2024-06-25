@@ -7,9 +7,9 @@ import { consulatantFormFailure, consulatantFormStart, consulatantFormSuccess, c
 const ApplyConsultant = () => {
     const { currentUser, loading, error } = useSelector((state) => state.user);
     const [formData, setFormData] = useState({
-        userId: currentUser._id,
-        avatar: currentUser.avatar,
-        email: currentUser.email
+        userId: currentUser && currentUser._id,
+        avatar: currentUser && currentUser.avatar,
+        email: currentUser && currentUser.email
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -138,11 +138,16 @@ const ApplyConsultant = () => {
                         <p className='text-center text-green-500'>{status}</p>
 
                     </div>}
-                <button type="submit" className="bg-slate-700 text-white p-2 px-5  rounded-lg
-                hover:opacity-90 disabled:opacity-80 tracking-wider">Apply for consulatant</button>
+                {currentUser && (<button type="submit" className="bg-slate-700 text-white p-2 px-5  rounded-lg
+                hover:opacity-90 disabled:opacity-80 tracking-wider">Apply for consulatant</button>)}
+
                 <h5 className='my-5 '>After submission, Your details will be reviewed for registering as a consultant</h5>
             </form>
-
+            <div className="md:w-1/2 mx-auto">
+                {!currentUser && (<a href="/login"><button className="bg-slate-700 text-white p-2 px-5  rounded-lg
+                hover:opacity-90 disabled:opacity-80 tracking-wider">Log in to apply</button></a>)
+                }
+            </div>
         </div>
     )
 };

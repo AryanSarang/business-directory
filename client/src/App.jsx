@@ -46,9 +46,9 @@ export default function App() {
         <Route path="/admin/consultations" element={<AllConsultations />} />
       </Route>
 
+      <Route path="/applyconsultant" element={<ApplyConsultant />} />
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/applyconsultant" element={<ApplyConsultant />} />
       </Route>
 
     </Routes>

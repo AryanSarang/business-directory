@@ -267,8 +267,8 @@ const Consultant = () => {
                             <p className='text-center text-green-500'>{status}</p>
 
                         </div>}
-                    {currentUser && (<button type="submit" className="bg-slate-700 text-white p-2 px-5  rounded-lg
-                hover:opacity-90 disabled:opacity-80 tracking-wider">Book appointment</button>)}
+                    {currentUser && (<button type="submit" disabled={loading} className={`bg-slate-700 text-white p-2 px-5  rounded-lg
+                hover:opacity-90 disabled:opacity-80 tracking-wider`}>{loading ? "Booking..." : "Book appointment"}</button>)}
 
                     <h5 className='my-5 '></h5>
                 </form>
