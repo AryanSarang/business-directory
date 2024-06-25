@@ -14,7 +14,7 @@ import ConsultantPrice from "../components/ConsultantPrice";
 
 const Consultant = () => {
     const { currentUser, loading, error } = useSelector((state) => state.user);
-    registerLicense('Ngo9BigBOggjHTQxAR8/V1NCaF5cXmZCeEx0QXxbf1x0ZFdMYVxbRX5PMyBoS35RckVlWHhecnVVR2heWEB3');
+    registerLicense('Ngo9BigBOggjHTQxAR8/V1NCaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXlcdXRTQmdZWE13Wkc=');
     const dispatch = useDispatch();
     const [consultant, setConsultant] = useState([]);
     const { consultantId } = useParams();
