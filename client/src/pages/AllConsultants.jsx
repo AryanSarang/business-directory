@@ -56,7 +56,7 @@ const AllConsultants = () => {
                     ))}
                 </select>
             </div>
-            <div className="flex items-center gap-5 flex-wrap">
+            <div className="flex items-center mx-4 gap-5 flex-wrap">
                 {filteredConsultants.map((consultant, index) => (
                     <CardAllConsultant key={index} consultant={consultant} />
                 ))}

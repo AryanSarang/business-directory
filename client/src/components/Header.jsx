@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Drawer from './Drawer';
 import useWindowWidth from '../Miscellaneous/useWindowWidth';
 import { useEffect } from 'react';
+import Drawer2 from './Drawer2';
 
 
 const Header = () => {
@@ -34,7 +35,7 @@ const Header = () => {
                 </Link>
 
                 <div className='my-auto'>
-                    {windowWidth >= 900 ? <Navbar /> : <Drawer />}
+                    {windowWidth >= 900 ? <Navbar /> : <Drawer2 />}
                 </div>
             </div>
         </header>

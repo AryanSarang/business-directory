@@ -155,7 +155,7 @@ const Consultant = () => {
                                 href={consultant.avatar}
                             />
                         </Helmet>
-                        <img src={consultant.avatar} className="w-52 h-52 mx-auto shadow-lg rounded-full relative bottom-3" alt={consultant.name} /></>
+                        <img src={consultant.avatar} className="h-40 h-40 md:w-52 md:h-52 mx-auto shadow-lg rounded-full relative bottom-3" alt={consultant.name} /></>
                     <div className="flex flex-col mt-2 align-middle text-center">
                         <div className="flex gap-2 items-center justify-center">
                             <svg className="w-4 h-4 text-slate-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">

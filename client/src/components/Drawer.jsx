@@ -1,12 +1,10 @@
 import { RiMenuUnfold4Line2 } from "react-icons/ri";
 import { FaUser, FaBell, FaAddressCard, FaUserTie, FaLayerGroup, FaHome } from 'react-icons/fa';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import DrawerLogo from '../assets/drawerLogo.png';
 import { logOutUserFailure, logOutUserStart, logOutUserSuccess, notificationFailure, notificationStart, notificationSuccess } from "../redux/user/userSlice";
-import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
-
 
 const Drawer = () => {
 
@@ -79,7 +77,7 @@ const Drawer = () => {
     return (
         <>
             <div className="text-center">
-                <button className="text-slate-900 rounded-lg text-sm px-5 py-2.5 " type="button" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="true" aria-controls="drawer-backdrop">
+                <button id="drawerButton" className="text-slate-900 rounded-lg text-sm px-5 py-2.5 " type="button" data-drawer-target="drawer-backdrop" data-drawer-show="drawer-backdrop" data-drawer-backdrop="true" aria-controls="drawer-backdrop">
                     <RiMenuUnfold4Line2 fontSize="35px" />
                 </button>
             </div>
