@@ -263,7 +263,7 @@ const Consultant = () => {
                      border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder={`Write a message to ${firstName}`}></textarea>
                     </div>
                     {status &&
-                        <div className='md:w-1/2 mx-auto mb-9 bg-white py-3 px-4 md:px-1 rounded-lg'>
+                        <div className='w-full mx-auto mb-9 bg-white py-3 px-4 md:px-1 rounded-lg'>
                             <p className='text-center text-green-500'>{status}</p>
 
                         </div>}
