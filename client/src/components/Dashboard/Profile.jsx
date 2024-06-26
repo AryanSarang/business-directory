@@ -89,7 +89,6 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Updating user with:', { formData });
 
         try {
             dispatch(updateUserStart());
@@ -182,7 +181,7 @@ const Profile = () => {
                             </div>
                         </div>
                         {(uploadPercent !== 0) && <p className='text-gray-500 text-right'>Upload {uploadPercent}%</p>}
-                        {fileUploadError && <span className='text-red-500 text-right'>Error in uploading image</span>}
+                        {fileUploadError && <span className='text-red-500 text-right'>Error, make sure image is less than 2MB</span>}
                         <button disabled={loading} type="submit" className="mt-5 ml-auto text-white save-button self-start border-solid border-2 rounded-md bg-slate-700 px-2 py-1">
                             {loading ? "Loading..." : "Update"}
                         </button>

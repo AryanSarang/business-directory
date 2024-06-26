@@ -13,7 +13,16 @@ const Drawer2 = () => {
     const dispatch = useDispatch();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('overflow-hidden');
+        } else {
+            document.body.classList.remove('overflow-hidden');
+        }
+        return () => {
+            document.body.classList.remove('overflow-hidden');
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         if (currentUser) {
@@ -188,6 +197,7 @@ const Drawer2 = () => {
                                             CRM
                                         </Link>
                                     </li>
+
                                 </ul>
                             </li>
                         </ul>
