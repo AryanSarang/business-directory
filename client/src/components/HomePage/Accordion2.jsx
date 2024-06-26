@@ -42,25 +42,25 @@ const Accordion2 = () => {
     return (
         <div className="max-w-lg mx-auto md:mt-20">
             <AccordionItem
-                title="Accordion Item 1"
+                title="Create an account"
                 isOpen={openIndex === 0}
                 onClick={() => handleToggle(0)}
             >
-                <p>This is the content for accordion item 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p className='tracking-wide  '>Login into your account or create a new one, you can easily create an account using your google account or register with new credentials </p>
             </AccordionItem>
             <AccordionItem
-                title="Accordion Item 2"
+                title="Select the consultant"
                 isOpen={openIndex === 1}
                 onClick={() => handleToggle(1)}
             >
-                <p>This is the content for accordion item 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p className='tracking-wide'>Go to all consultant page use the filter to find all leading professionals from your field, freely check their profiles to find what you need </p>
             </AccordionItem>
             <AccordionItem
-                title="Accordion Item 3"
+                title="Book a slot"
                 isOpen={openIndex === 2}
                 onClick={() => handleToggle(2)}
             >
-                <p>This is the content for accordion item 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p className='tracking-wide'>Fill the form available on consultant's profile by mentioning your desired time and date to book a slot with them.</p>
             </AccordionItem>
         </div>
     );
