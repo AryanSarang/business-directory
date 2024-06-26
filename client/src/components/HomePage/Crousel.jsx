@@ -27,8 +27,8 @@ const Crousel = () => {
             >
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-white md:px-5'>
                     <img className=' w-3/4 md:w-4/6' src={person1} alt="performance marketing expert" />
-                    <div className='flex  justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl  m-5 mt-0  shadow-lg'>
+                    <div className='flex justify-between align-middle items-center bg-white w-full
+                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0 shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 1</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>
@@ -43,14 +43,14 @@ const Crousel = () => {
                 </SwiperSlide>
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-slate-300 md:px-5'>
                     <img className=' w-3/4 md:w-4/6' src={person1} />
-                    <div className='flex  justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl  m-5 mt-0  shadow-lg'>
+                    <div className='flex justify-between align-middle items-center bg-white w-full
+                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0 shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 2</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>
                         </div>
                         <div>
-                            <button className='text-xs  text-white p-2 px-3 font-semibold rounded-md bg-slate-500 hover:border-2 hover:bg-white hover:border-slate-500 hover:text-slate-500'>
+                            <button className='text-xs text-white p-2 px-3 font-semibold rounded-md bg-slate-500 hover:border-2 hover:bg-white hover:border-slate-500 hover:text-slate-500'>
                                 Connect
                             </button>
                         </div>
@@ -59,14 +59,14 @@ const Crousel = () => {
                 </SwiperSlide>
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-slate-300 md:px-5'>
                     <img className=' w-3/4 md:w-4/6' src={person1} />
-                    <div className='flex  justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl  m-5 mt-0  shadow-lg'>
+                    <div className='flex justify-between align-middle items-center bg-white w-full
+                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0  shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 3</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>
                         </div>
                         <div>
-                            <button className='text-xs  text-white p-2 px-3 font-semibold rounded-md bg-slate-500 hover:border-2 hover:bg-white hover:border-slate-500 hover:text-slate-500'>
+                            <button className='text-xs text-white p-2 px-3 font-semibold rounded-md bg-slate-500 hover:border-2 hover:bg-white hover:border-slate-500 hover:text-slate-500'>
                                 Connect
                             </button>
                         </div>
