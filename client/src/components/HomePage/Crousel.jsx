@@ -26,9 +26,9 @@ const Crousel = () => {
                 autoplay={{ delay: 3000, disableOnInteraction: true }}
             >
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-white md:px-5'>
-                    <img className=' w-3/4 md:w-4/6' src={person1} alt="performance marketing expert" />
+                    <img className=' w-3/4 md:w-4/6 mx-auto' src={person1} alt="performance marketing expert" />
                     <div className='flex justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0 shadow-lg'>
+                     text-black px-5 py-5 rounded-2xl md:m-5 md:mt-0 mb-5 me-2 mt-0 shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 1</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>
@@ -42,9 +42,9 @@ const Crousel = () => {
 
                 </SwiperSlide>
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-slate-300 md:px-5'>
-                    <img className=' w-3/4 md:w-4/6' src={person1} />
+                    <img className=' w-3/4 md:w-4/6 mx-auto' src={person1} />
                     <div className='flex justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0 shadow-lg'>
+                     text-black px-5 py-5 rounded-2xl md:m-5 mb-5 md:mt-0 me-2 mt-0 shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 2</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>
@@ -58,9 +58,9 @@ const Crousel = () => {
 
                 </SwiperSlide>
                 <SwiperSlide className='swiperSlides person1slide flex flex-col bg-slate-300 md:px-5'>
-                    <img className=' w-3/4 md:w-4/6' src={person1} />
+                    <img className=' w-3/4 md:w-4/6 mx-auto' src={person1} />
                     <div className='flex justify-between align-middle items-center bg-white w-full
-                     text-black px-5 py-5 rounded-2xl md:m-5 my-5 me-2 mt-0  shadow-lg'>
+                     text-black px-5 py-5 rounded-2xl md:m-5 mb-5 md:mt-0 me-2 mt-0  shadow-lg'>
                         <div>
                             <h3 className='text-lg font-medium'>Loreum Ipsum 3</h3>
                             <h5 className='text-sm font-bold'>Performance Marketing expert</h5>

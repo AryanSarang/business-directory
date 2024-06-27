@@ -272,4 +272,9 @@ textarea {
 
 #filter select {
     padding-right: 30px;
+
+}
+
+#filter select:focus-visible {
+    outline: 1px solid #0f172a;
 }

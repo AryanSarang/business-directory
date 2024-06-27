@@ -4,7 +4,6 @@ const CardAllConsultant = ({ consultant }) => {
     const navigate = useNavigate();
     const handleClick = () => {
         navigate(`/consultant/${consultant._id}`);
-        // Scroll to #bookingForm section after a short delay to ensure DOM updates
         setTimeout(() => {
             const element = document.getElementById('formDiv');
             if (element) {
@@ -35,13 +34,12 @@ const CardAllConsultant = ({ consultant }) => {
                 <span className="text-sm text-gray-700 gilroy-bold">Experience: {consultant.experienceYear} years</span>
 
                 <div className="flex mt-4 gap-3 md:mt-6">
-                    <a onClick={handleClick} className="inline-flex items-center px-6 py-2 text-sm tracking-wider cursor-pointer font-medium text-center text-white bg-green-700 rounded-lg hover:shadow-sm hover:shadow-green-300 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">Book</a>
-                    <a onClick={() => navigate(`/consultant/${consultant._id}`)} className="py-2 px-6 ms-2 text-sm tracking-wider font-semibold text-slate-700 focus:outline-none bg-white rounded-lg border hover:shadow-md hover:shadow-gray-300 border-gray-500 hover:bg-gray-100 hover:text-slate-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
+                    <a onClick={handleClick} className="inline-flex items-center px-6 py-2 text-sm tracking-wider cursor-pointer font-medium text-center text-white bg-green-700 rounded-md hover:shadow-sm hover:shadow-green-300 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">Book</a>
+                    <a onClick={() => navigate(`/consultant/${consultant._id}`)} className="py-2 px-6 ms-2 text-sm cursor-pointer tracking-wider font-semibold text-slate-700 focus:outline-none bg-white rounded-md border hover:shadow-md hover:shadow-gray-300 border-gray-500 hover:bg-gray-100 hover:text-slate-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Profile</a>
                 </div>
                 <span className="text-sm text-gray-700 mt-5 px-5 line-clamp-3 font-semibold overflow-hidden gilroy-light" >
                     {consultant.experience}<br />
                 </span>
-
             </div>
             <div className='flex justify-between px-5 items-center'>
                 <div className="flex flex-col align-middle text-center">
@@ -62,7 +60,6 @@ const CardAllConsultant = ({ consultant }) => {
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                         </svg>
                     </div>
-
                 </div>
                 <span className='font-normal'>Orders: 104</span>
             </div>
