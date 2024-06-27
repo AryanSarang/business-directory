@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, consulatantFormFailure, consulatantFormStart, consulatantFormSuccess } from "../redux/user/userSlice";
-import { useLocation, useParams } from 'react-router-dom';
-import { FaPhoneAlt, FaUser } from "react-icons/fa";
+import { useParams } from 'react-router-dom';
+import { FaPhoneAlt } from "react-icons/fa";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 import { registerLicense } from '@syncfusion/ej2-base';
 import { Helmet } from 'react-helmet';
@@ -32,7 +32,8 @@ const Consultant = () => {
         userId: currentUser ? currentUser._id : "not logged in",
         userName: currentUser ? currentUser.username : "not logged in",
         consultantName: "",
-        consultantId: consultantId
+        consultantId: consultantId,
+        userPhone: currentUser && currentUser.phone
     });
 
 
@@ -155,7 +156,7 @@ const Consultant = () => {
                                 href={consultant.avatar}
                             />
                         </Helmet>
-                        <img src={consultant.avatar} className="h-40 h-40 md:w-52 md:h-52 mx-auto shadow-lg rounded-full relative bottom-3" alt={consultant.name} /></>
+                        <img src={consultant.avatar} className="h-40  md:w-52 md:h-52 mx-auto shadow-lg rounded-full relative bottom-3" alt={consultant.name} /></>
                     <div className="flex flex-col mt-2 align-middle text-center">
                         <div className="flex gap-2 items-center justify-center">
                             <svg className="w-4 h-4 text-slate-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -246,7 +247,7 @@ const Consultant = () => {
                                     <FaPhoneAlt />
                                 </div>
                                 <input type="tel" id="userPhone" required onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                         focus:border-blue-500 block w-full ps-10 p-2.5 " placeholder="9876543210" inputMode="numeric" pattern="[0-9]*" />
+                         focus:border-blue-500 block w-full ps-10 p-2.5" defaultValue={currentUser && currentUser.phone} placeholder="9876543210" inputMode="numeric" pattern="[0-9]*" />
                             </div>
                         </div>
                         <div className="mb-5 md:w-6/12 ">

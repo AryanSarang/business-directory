@@ -37,6 +37,7 @@ export const updateUser = async (req, res, next) => {
                     username: req.body.username,
                     password: req.body.password,
                     avatar: req.body.avatar,
+                    phone: req.body.phone
                 },
             },
             { new: true }
@@ -249,6 +250,9 @@ export const bookAppointment = async (req, res, next) => {
         user.notification.push({
             type: "New-appointment-request",
             message: `Your appointment for ${req.body.specialization} with ${consultant.name} has been booked for ${indianDate}, you will soon recieve a phone call on ${req.body.userPhone}`,
+            data: {
+                onClickPath: `/consultant/${req.body.consultantId}`
+            },
             timestamp: new Date()
         });
         user.save();
@@ -256,6 +260,9 @@ export const bookAppointment = async (req, res, next) => {
             consultant: consultant.name,
             date: indianDate,
             status: "requested",
+            data: {
+                onClickPath: `/consultant/${req.body.consultantId}`
+            },
             timestamp: new Date()
         })
         admin.notification.push({

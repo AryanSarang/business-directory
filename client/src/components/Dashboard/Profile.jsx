@@ -159,7 +159,7 @@ const Profile = () => {
                                     }
                                     id='password'
                                     onChange={handleChange}
-                                    className="input-field self-start w-56 px-0 py-1 ps-2 rounded-md"
+                                    className="input-field self-start w-52 md:w-56 px-0 py-1 ps-2 rounded-md"
                                     placeholder="new password"
                                 />
                                 <span className='self-start'>
@@ -167,6 +167,18 @@ const Profile = () => {
                                         setShowPassword((prev) => !prev)
                                     } /> show</span>
                             </div>
+                        </div>
+                        <div className="flex justify-between items-center mb-3">
+                            <span className='font-semibold'>phone: </span>
+                            <input
+                                type="tel"
+                                defaultValue={currentUser.phone}
+                                id='phone'
+                                onChange={handleChange}
+                                className="input-field self-start w-56 px-0 py-1 ps-2 rounded-md"
+                                placeholder={currentUser.phone}
+                            />
+
                         </div>
                         <div className="flex mt-3 align-middle items-center justify-between">
                             <span className='font-semibold'>Image:</span>
@@ -188,8 +200,9 @@ const Profile = () => {
                     </form>
                 ) : (
                     <>
-                        <span className="self-start px-1 py-1 font-semibold">Username: @{currentUser.username}</span>
-                        <span className="self-start px-1 py-1 font-semibold">Email: {currentUser.email}</span>
+                        <span className="self-start px-1 py-1 mb-3 mb- md:ms-9 font-semibold">Username: <span className='font-normal'>@{currentUser.username}</span></span>
+                        <span className="self-start px-1 py-1 mb-3 md:ms-9 font-semibold">Email: <span className='font-normal'>{currentUser.email}</span></span>
+                        <span className="self-start px-1 py-1 md:ms-9 font-semibold">Phone: <span className='font-normal'>{currentUser.phone}</span></span>
                         <span onClick={handleLogOut} className="mt-4 font-medium text-red-700 p-1 px-2 border-2 hover:text-red-400 hover:border-red-400 border-red-500 rounded-md cursor-pointer self-end">
                             Log out
                         </span>

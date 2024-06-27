@@ -4,6 +4,7 @@ import CardConsultation from './CardConsultation';
 
 const Consultations = () => {
     const { currentUser, loading, error } = useSelector((state) => state.user);
+
     return (
         <div className=' w-full md:w-4/12 shadow-md bg-custom-white md:px-11 md:py-3 p-5 rounded-lg  text-center'>
 
@@ -13,6 +14,7 @@ const Consultations = () => {
                     {currentUser && currentUser.consultation && currentUser.consultation.length > 0 ?
                         (
                             currentUser.consultation.slice().reverse().map((SingleConsultation, index) => (
+
                                 <CardConsultation key={index}
                                     consultant={SingleConsultation.consultant}
                                     status={SingleConsultation.status}
@@ -20,6 +22,7 @@ const Consultations = () => {
                                     timeStamp={SingleConsultation.timestamp}
                                     date={SingleConsultation.date}
                                 />
+
                             ))
                         ) : (<p className='text-slate-800 m-auto text-xl'>No consultations</p>)}
 

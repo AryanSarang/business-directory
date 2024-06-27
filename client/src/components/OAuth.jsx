@@ -38,7 +38,7 @@ const OAuth = () => {
         <button onClick={handleGoogleClick} type="button"
             className="bg-white text-slate-600 py-2 px-3 border-2 border-slate-600
            rounded-lg hover:opacity-95 hover:text-slate-500 disabled:opacity-95 flex gap-5 items-center justify-center">
-            <FcGoogle fontSize="30px" /> Sign in with Google
+            <FcGoogle fontSize="30px" /> Continue with Google
         </button>
     )
 };
