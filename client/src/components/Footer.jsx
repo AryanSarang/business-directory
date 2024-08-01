@@ -35,16 +35,16 @@ const Footer = () => {
                             md:p-0">
                                 About</Link>
                             </li>
-                            <li><Link to={"/allbusiness"} className="block my-3  pe-3 md:px-3  md:border-0 
+                            <li><Link to={"/allbusiness"} className="block my-3 text-sm  pe-3 md:px-3  md:border-0 
                             md:p-0 ">
                                 Contact Us</Link>
                             </li>
 
-                            <li><Link to={"/businessconsultancy"} className="block  my-3 pe-3 md:px-3  md:border-0 
+                            <li><Link to={"/businessconsultancy"} className="block text-sm  my-3 pe-3 md:px-3  md:border-0 
                             md:p-0">
                                 Terms of Service</Link>
                             </li>
-                            <li><Link to={"/businessconsultancy"} className="block  my-3 pe-3 md:px-3  md:border-0 
+                            <li><Link to={"/businessconsultancy"} className="block text-sm  my-3 pe-3 md:px-3  md:border-0 
                             md:p-0 ">
                                 Privacy Policy</Link>
                             </li>
@@ -56,9 +56,9 @@ const Footer = () => {
                             md:p-0 ">
                                 Blogs</Link>
                             </li>
-                            <li><Link to={"/allbusiness"} className="block   my-3 pe-3 md:px-3   md:border-0 
+                            <li><Link to={"/writeablog"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
                             md:p-0 ">
-                                Link 1</Link>
+                                Publish your blog</Link>
                             </li>
 
                         </ul>

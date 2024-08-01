@@ -20,6 +20,7 @@ import AdminRoute from './components/AdminRoute';
 import AllConsultants from './pages/AllConsultants';
 import Consultant from './pages/Consultant';
 import ScrollToTop from './Miscellaneous/ScrollToTop';
+import WriteABlog from './pages/WriteABlog';
 
 export default function App() {
   return <BrowserRouter>
@@ -47,6 +48,7 @@ export default function App() {
       </Route>
 
       <Route path="/applyconsultant" element={<ApplyConsultant />} />
+      <Route path="/writeablog" element={<WriteABlog />} />
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>

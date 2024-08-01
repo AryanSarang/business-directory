@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
     consultation: {
         type: Array,
         default: []
+    },
+    blogs: {
+        type: Array,
+        default: []
     }
 
 }, { timestamps: true });
