@@ -278,3 +278,9 @@ textarea {
 #filter select:focus-visible {
     outline: 1px solid #0f172a;
 }
+
+
+/* remove jodit editor branding */
+.jodit-status-bar .jodit-status-bar__item-right:last-child {
+    display: none;
+}

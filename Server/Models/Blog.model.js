@@ -23,8 +23,6 @@ const blogSchema = new mongoose.Schema({
         enum: ['pending', 'approved', 'rejected'],
         default: 'pending'
     },
-
-
 }, { timestamps: true });
 
 const Blog = mongoose.model('Blog', blogSchema);
