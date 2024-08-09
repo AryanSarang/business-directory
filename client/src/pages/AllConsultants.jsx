@@ -45,7 +45,7 @@ const AllConsultants = () => {
             <h1 className="text-3xl md:text-5xl text-center mb-16 font-semibold tracking-wider">Find a mentor, you <b className="gilroy-extraBold">admire</b></h1>
             <div id="filter" className="mb-8 flex justify-center md:justify-start mx-3">
                 <select
-                    className="p-2 px-4 border-gray-300 rounded font-semibold focus:ring-slate-400 border-0 shadow-lg"
+                    className="p-2 px-4 border-gray-300 rounded font-semibold focus:ring-slate-400 border-0 shadow-sm"
                     value={selectedSpecialization}
                     onChange={handleFilterChange}
                 >

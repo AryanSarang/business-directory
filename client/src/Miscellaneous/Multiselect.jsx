@@ -1,25 +1,24 @@
 import { useState } from 'react';
 
-const MultiSelect = ({ options }) => {
-
+const MultiSelect = ({ options, onChange }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
-    const handleOptionClick = (option, onChange) => {
+    const handleOptionClick = (option) => {
         const updatedOptions = selectedOptions.includes(option)
             ? selectedOptions.filter(item => item !== option)
             : [...selectedOptions, option];
 
         setSelectedOptions(updatedOptions);
-        onChange(updatedOptions); // Call onChange prop with updated options
+        onChange(updatedOptions);
     };
 
     const clearSelection = () => {
         setIsOpen(false);
         setSelectedOptions([]);
-        onChange([]); // Clear the selection
+        onChange([]);
     };
 
     const displaySelectedOptions = () => {
@@ -66,21 +65,22 @@ const MultiSelect = ({ options }) => {
                     </div>
                 )}
             </div>
-            {selectedOptions.length > 0 && <div className="flex flex-wrap gap-2 mt-1">
-                <button
-                    type="button"
-                    className="py-1 px-2 select-none inline-flex items-center gap-x-1 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50"
-                    onClick={clearSelection}
-                >
-                    <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                    remove tags
-                </button>
-            </div>}
+            {selectedOptions.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-1">
+                    <button
+                        type="button"
+                        className="py-1 px-2 select-none inline-flex items-center gap-x-1 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50"
+                        onClick={clearSelection}
+                    >
+                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M18 6L6 18M6 6l12 12" />
+                        </svg>
+                        remove tags
+                    </button>
+                </div>
+            )}
         </div>
-
-    )
+    );
 };
 
 export default MultiSelect;

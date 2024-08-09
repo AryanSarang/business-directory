@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../Utils/error.js";
 import jwt from 'jsonwebtoken';
 import Consultant from "../Models/Consultant.model.js";
+import Blog from "../Models/Blog.model.js";
 
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -91,7 +92,7 @@ export const signOut = async (req, res, next) => {
 
 export const getAllConsultants = async (req, res, next) => {
     try {
-        const consultants = await Consultant.find({});
+        const consultants = await Consultant.find({ "approved": "approved" });
         res.status(200).send({
             success: true,
             message: 'consultants list',
@@ -111,6 +112,35 @@ export const getConsultantById = async (req, res, next) => {
             success: true,
             message: 'Single consultant',
             data: consultant
+        })
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+export const getAllBlogs = async (req, res, next) => {
+    try {
+        const blogs = await Blog.find({
+            "approved": "approved"
+        });
+        res.status(200).send({
+            success: true,
+            message: 'blogs list',
+            data: blogs
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getBlogById = async (req, res, next) => {
+    try {
+        const blog = await Blog.findOne({ _id: req.body.blogId });
+        res.status(200).send({
+            success: true,
+            message: 'Single blog',
+            data: blog
         })
     } catch (error) {
         next(error);

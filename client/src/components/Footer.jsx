@@ -56,6 +56,10 @@ const Footer = () => {
                             md:p-0 ">
                                 Blogs</Link>
                             </li>
+                            <li><Link to={"/allblogs"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
+                            md:p-0 ">
+                                All Blogs</Link>
+                            </li>
                             <li><Link to={"/writeablog"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
                             md:p-0 ">
                                 Publish your blog</Link>

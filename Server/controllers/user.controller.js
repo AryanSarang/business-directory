@@ -1,12 +1,15 @@
 import User from "../Models/User.model.js";
 import { errorHandler } from "../Utils/error.js";
 import bcryptjs from 'bcryptjs';
+import express from 'express';
 import Consultant from '../Models/Consultant.model.js';
 import Appointment from '../Models/Appointments.model.js';
+import Blog from '../Models/Blog.model.js';
 import moment from 'moment-timezone';
 import dotenv from 'dotenv';
 dotenv.config();
 import nodemailer from 'nodemailer';
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -328,3 +331,95 @@ export const bookAppointment = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const submitBlog = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ _id: req.body.userId }).select("-password");
+        const newBlog = new Blog(req.body);
+
+        await newBlog.save();
+
+        const adminUsers = await User.find({ isAdmin: true });
+
+        const adminNotificationTemplate = {
+            type: 'blog-submit',
+            message: `${user.username} has submitted a new blog ${req.body.title} and is waiting for the review`,
+            data: {
+                consultantId: user._id,
+                name: user.username,
+                onClickPath: '/admin/blogs'
+            },
+            timestamp: new Date()
+        };
+
+        for (const adminUser of adminUsers) {
+            const adminNotification = adminUser.notification || [];
+            adminNotification.push(adminNotificationTemplate);
+
+            await User.findByIdAndUpdate(adminUser._id, { notification: adminNotification });
+        }
+
+        const userNotification = {
+            type: 'apply-consultant',
+            message: `Thank you for submitting your new blog, ${req.body.title}  We are currently reviewing it, and it will be published soon.`,
+            data: {
+                consultantId: user._id,
+                name: user.username,
+                onClickPath: `/blog/update:${newBlog._id}`
+            },
+            timestamp: new Date()
+        }
+        user.notification.push(userNotification);
+        user.save();
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'New Blog Submitted',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <div style="background-color: #f7f7f7; padding: 10px 20px; text-align: center;">
+                        <img src="https://scontent.fjai2-4.fna.fbcdn.net/v/t39.30808-6/326199203_853842605872148_2610728013556829022_n.png?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=36QVIa-pDYIQ7kNvgE0NulF&_nc_ht=scontent.fjai2-4.fna&oh=00_AYDTzG_Up7HcgSrGJPiawTrv3HUpmWfl2Q70Rfq_tVE6hA&oe=6680292C"
+                        alt="Company Logo" style="max-width: 150px; height: auto;">
+                    </div>
+                    <div style="padding: 20px;">
+                        <p>Hi</p>
+                        <p>Your new blog ${req.body.title} is submitted with the following details:</p>
+                        <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="background-color: #f7f7f7; text-align: left;">Title</th>
+                                <td>${req.body.title}</td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f7f7f7; text-align: left;">Featured Image</th>
+                                <td><img src="${req.body.featuredImage}" alt="featured" style="max-height: 350px; width: auto;"/></td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f7f7f7; text-align: left;">Tags</th>
+                                <td>${req.body.tags}</td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f7f7f7; text-align: left;">Content</th>
+                                <td>${req.body.content}</td>
+                            </tr>
+                            
+                        </table>
+                        <p>We are currently reviewing and it will be published soon</p>
+                        <p>Best regards,<br>Your Company</p>
+                    </div>
+                    <div style="background-color: #f7f7f7; padding: 10px 20px; text-align: center;">
+                        <p style="font-size: 12px; color: #777;">&copy; ${new Date().getFullYear()} Your Company. All rights reserved.</p>
+                    </div>
+                </div>
+            `
+        };
+        await transporter.sendMail(mailOptions);
+        res.status(200).send({
+            success: true,
+            message: 'New blog submitted'
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+

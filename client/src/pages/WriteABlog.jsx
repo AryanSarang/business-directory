@@ -1,29 +1,31 @@
 import JoditEditor from 'jodit-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from '../redux/user/userSlice';
 import MultiSelect from '../Miscellaneous/Multiselect';
 import { useDropzone } from 'react-dropzone';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import ImageUpload from '../components/ImageUpload';
 import { app } from '../firebase';
 import DefaultBlogImage from '../assets/DefaultBlog.webp';
+import { Link, useNavigate } from 'react-router-dom';
+import { blogSubmitStart, blogSubmitFailure, blogSubmitSuccess, clearError } from '../redux/user/userSlice.js';
 
 const WriteABlog = ({ placeholder }) => {
     const { currentUser, loading, error } = useSelector((state) => state.user);
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [droping, setDroping] = useState(false);
     const [newAvatar, setNewAvatar] = useState(DefaultBlogImage);
     const [uploadPercent, setUploadPercent] = useState(0);
     const [file, setFile] = useState(undefined);
     const [fileUploadError, setFileUploadError] = useState(false);
+    const [status, setStatus] = useState(null);
     const [formData, setFormData] = useState({
         userId: currentUser && currentUser._id,
-        avatar: currentUser && currentUser.avatar,
-        email: currentUser && currentUser.email,
-        blogTitle: "",
+        featuredImage: "https://st.depositphotos.com/1323882/3010/i/380/depositphotos_30101161-stock-photo-blue-mouse-and-cable-in.jpg",
+        title: "",
         tags: []
     });
 
@@ -87,7 +89,7 @@ const WriteABlog = ({ placeholder }) => {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setFormData((prevFormData) => ({ ...prevFormData, avatar: downloadURL }));
+                    setFormData((prevFormData) => ({ ...prevFormData, featuredImage: downloadURL }));
                 });
             }
         );
@@ -96,12 +98,10 @@ const WriteABlog = ({ placeholder }) => {
     const options = [
         'Performance Marketing',
         'SEO',
-        'Software Development',
+        'Software',
         'UI & UX',
         'CRM'
     ];
-
-
 
     const setSelectedTags = (selectedTags) => {
         setFormData({
@@ -117,18 +117,42 @@ const WriteABlog = ({ placeholder }) => {
         })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+        try {
+            dispatch(blogSubmitStart());
+            const res = await fetch("/api/user/blog-submit", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(blogSubmitFailure(data.message));
+                setStatus(data.message);
+                return;
+            }
+            dispatch(blogSubmitSuccess());
+            setStatus("Blog is submitted, it will be published soon after a review.");
 
+        } catch (error) {
+            dispatch(blogSubmitFailure(error.message));
+            console.log(error)
+        }
     }
 
     return (
         <main className="w-11/12 py-20 md:py-40 mx-auto">
             <h1 className="text-3xl md:text-5xl text-center mb-16 font-semibold tracking-wide">Write a Blog for <b className="gilroy-extraBold">world to see</b></h1>
-            <form onSubmit={handleSubmit} className="flex gap-5 justify-between">
-                <div className=' w-full md:w-1/4 min-h-44 h-fit shadow-md flex flex-col bg-white gap-5 md:p-3 rounded-sm'>
+            <p className="text-xl md:text-2xl text-center mb-16 font-semibold tracking-wide">{status} </p>
+            <form onSubmit={handleSubmit} className="flex gap-5 justify-between flex-col-reverse md:flex-row">
+                <div className=' w-full md:w-1/4 min-h-44 h-fit shadow-md flex flex-col bg-white gap-5 p-3 md:p-3 rounded-sm'>
                     <h3 className="text-xl md:text-2xl text-center mb-5 font-semibold tracking-wide">Blog Details</h3>
                     <input placeholder='Blog title' required type="text" className="border w-full px-3 py-2 border-slate-400 rounded-md"
-                        id="blogTitle" onChange={handleChange} />
+                        id="title" onChange={handleChange} />
 
                     <MultiSelect options={options} onChange={setSelectedTags} />
 
@@ -154,20 +178,30 @@ const WriteABlog = ({ placeholder }) => {
 
 
 
-                    <button disabled={loading} className="bg-slate-700 text-white py-2 px-3 uppercase rounded-md
+                    {
+                        currentUser ? <button disabled={loading} className="bg-slate-700 text-white py-2 px-3 uppercase rounded-md
                 hover:opacity-90 disabled:opacity-80 tracking-wide" >
-                        {loading ? 'Submitting...' : 'Submit blog'}</button>
+                            {loading ? 'Submitting...' : 'Submit blog'}</button>
+                            :
+                            <Link to={"/login"}>
+                                <button className="text-white tracking-wider gilroy-Bold hover:bg-white hover:text-slate-700 bg-slate-500 border-2 rounded-md border-slate-500 w-full p-2 ">
+                                    Log in to your account</button>
+                            </Link>}
                 </div>
-
                 <div className="md:w-3/4 h-fit bg-white rounded-lg">
                     <JoditEditor
                         ref={editor}
                         value={content}
                         config={config}
                         tabIndex={1}
-
                         onBlur={newContent => setContent(newContent)}
-                        onChange={newContent => { }}
+                        onChange={newContent => {
+                            setContent(newContent);
+                            setFormData({
+                                ...formData,
+                                content: newContent,
+                            });
+                        }}
                         className='shadow-lg'
                     />
                 </div>

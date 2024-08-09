@@ -21,6 +21,9 @@ import AllConsultants from './pages/AllConsultants';
 import Consultant from './pages/Consultant';
 import ScrollToTop from './Miscellaneous/ScrollToTop';
 import WriteABlog from './pages/WriteABlog';
+import AllBlogs from './pages/AllBlogs';
+import Blog from './pages/Blog';
+
 
 export default function App() {
   return <BrowserRouter>
@@ -49,6 +52,8 @@ export default function App() {
 
       <Route path="/applyconsultant" element={<ApplyConsultant />} />
       <Route path="/writeablog" element={<WriteABlog />} />
+      <Route path="/allblogs" element={<AllBlogs />} />
+      <Route path='/blog/:blogId' element={<Blog />} />
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>

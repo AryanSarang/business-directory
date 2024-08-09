@@ -69,6 +69,17 @@ const userSlice = createSlice({
         notificationSuccess: (state, action) => {
             state.error = null;
             state.currentUser = action.payload;
+        },
+        blogSubmitStart: (state) => {
+            state.loading = true;
+        },
+        blogSubmitFailure: (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        },
+        blogSubmitSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
         }
 
     }
@@ -88,7 +99,9 @@ export const { signInStart,
     notificationFailure,
     notificationStart,
     notificationSuccess,
-
+    blogSubmitStart,
+    blogSubmitFailure,
+    blogSubmitSuccess,
 
 
     clearError

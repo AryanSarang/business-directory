@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const blogSchema = new mongoose.Schema({
     userId: {
         type: String,
@@ -12,7 +11,12 @@ const blogSchema = new mongoose.Schema({
     },
     featuredImage: {
         type: String,
-        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+        default: "https://st.depositphotos.com/1323882/3010/i/380/depositphotos_30101161-stock-photo-blue-mouse-and-cable-in.jpg"
+    },
+    content: {
+        type: String,
+        default: "",
+        required: true
     },
     tags: {
         type: Array,
