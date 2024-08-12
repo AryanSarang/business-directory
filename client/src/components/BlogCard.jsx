@@ -7,13 +7,13 @@ const BlogCard = ({ blog, index }) => {
     const sanitizedContent = DOMPurify.sanitize(blog.content);
     return (
         <div className="border bg-white rounded-lg group">
-            <Link to={`/blog/${blog._id}`}>
+            <Link to={`/blog/${blog.url}`}>
                 <div className="relative w-full pb-[38%] overflow-hidden">
                     <img src={blog.featuredImage} className="absolute top-0 left-0 w-full h-full object-cover
                      transition-transform duration-1000 group-hover:scale-125 group-hover:shadow-lg" />
                 </div>
-                <div className="md:px-5 py-5">
-                    <div className={`mb-4 ${index == 0 ? "text-center" : "text-left"}`}>
+                <div className="px-5 py-5">
+                    <div className={`mb-4 ${index == 0 ? "md:text-center" : "text-left"}`}>
                         <h4 className='text-2xl font-semibold tracking-wide line-clamp-2 group-hover:underline underline-offset-4'>{blog.title}</h4>
                         <h6 className="text-gray-500 select-none text-xs top-1 right-1 mt-1 mr-1">
                             {moment(blog.updatedAt).format('D MMM, YYYY')}

@@ -22,6 +22,11 @@ const blogSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    url: {
+        type: String,
+        required: true,
+        unique: true
+    },
     approved: {
         type: String,
         enum: ['pending', 'approved', 'rejected'],

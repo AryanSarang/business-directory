@@ -5,6 +5,9 @@ import { clearError } from "../redux/user/userSlice";
 
 const AllBlogs = () => {
     const [allBlogs, setAllBlogs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalBlogs, setTotalBlogs] = useState(0);
+    const blogsPerPage = 10;
     const dispatch = useDispatch();
     const [selectedTag, setSelectedTag] = useState('All');
 
@@ -12,40 +15,38 @@ const AllBlogs = () => {
 
     const handleFilterChange = (event) => {
         setSelectedTag(event.target.value);
+        setCurrentPage(1);
     };
-
-    const filteredBlogs = selectedTag === 'All'
-        ? allBlogs
-        : allBlogs.filter(blog => blog.tags.includes(selectedTag));
-
-
 
     useEffect(() => {
         dispatch(clearError());
+
         const getAllBlogs = async () => {
             try {
-                const res = await fetch("/api/auth/allblogs", {
+                const encodedTag = encodeURIComponent(selectedTag);
+                const res = await fetch(`/api/auth/allblogs?page=${currentPage}&limit=${blogsPerPage}&tag=${encodedTag}`, {
                     method: "GET",
                 });
                 const data = await res.json();
 
                 if (data.success) {
-                    const approvedBlogs = data.data.filter(blog => blog.approved === "approved");
-                    const sortedBlogs = approvedBlogs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-                    setAllBlogs(sortedBlogs);
-                    console.log(data);
+                    setAllBlogs(data.data);
+                    setTotalBlogs(data.totalBlogs);
                 } else {
                     console.log(data);
                 }
             } catch (error) {
                 console.log(error);
             }
-        }
+        };
+
         getAllBlogs();
-    }, []);
+    }, [currentPage, selectedTag, dispatch]);
+
+    const totalPages = Math.ceil(totalBlogs / blogsPerPage);
+
     return (
-        <main className="w-11/12 py-20 md:py-40 mx-auto">
+        <main className="py-16 md:p-32">
             <h1 className="text-3xl md:text-5xl text-center mb-16 font-semibold tracking-wide">Blogs</h1>
             <div id="filter" className="mb-8 flex justify-center md:justify-start mx-3">
                 <select
@@ -60,16 +61,34 @@ const AllBlogs = () => {
                     ))}
                 </select>
             </div>
-            <div className="items-center mx-4 flex flex-col md:flex-row md:flex-wrap w-full">
-                {filteredBlogs.map((blog, index) => (
+            <div className="items-center px-4 flex flex-col md:flex-row md:flex-wrap w-full">
+                {allBlogs.map((blog, index) => (
                     <div
                         key={index}
-                        className={`py-3 ${index % 3 === 0 ? 'basis-full' : 'md:basis-1/2'} ${(index + 2) % 3 === 0 ? 'md:pe-5' : ''}`}
+                        className={`py-3 w-full ${index % 3 === 0 ? 'basis-full' : 'md:basis-1/2'} ${(index + 2) % 3 === 0 ? 'md:pe-5' : ''}`}
                     >
                         <BlogCard blog={blog} index={index % 3} />
                     </div>
                 ))}
             </div>
+            {totalPages > 1 && (
+                <div className="flex justify-center mt-8">
+                    <button
+                        className="px-4 py-1 mx-2 text-white bg-slate-500 rounded-md disabled:opacity-50"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        className="px-4 py-1 mx-2 text-white bg-slate-500 rounded-md disabled:opacity-50"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </main>
     )
 };

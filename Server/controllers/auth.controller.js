@@ -121,14 +121,30 @@ export const getConsultantById = async (req, res, next) => {
 
 export const getAllBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find({
-            "approved": "approved"
-        });
+
+        const { page = 1, limit = 10, tag = 'All' } = req.query;
+
+        const skip = (page - 1) * limit;
+
+        let filter = { "approved": "approved" };
+
+        if (tag !== 'All') {
+            filter.tags = tag;
+        }
+
+        const blogs = await Blog.find(filter)
+            .skip(skip)
+            .limit(Number(limit))
+            .sort({ createdAt: -1 });
+
+        const totalBlogs = await Blog.countDocuments(filter);
+
         res.status(200).send({
             success: true,
             message: 'blogs list',
-            data: blogs
-        })
+            data: blogs,
+            totalBlogs,
+        });
     } catch (error) {
         next(error);
     }
@@ -136,12 +152,12 @@ export const getAllBlogs = async (req, res, next) => {
 
 export const getBlogById = async (req, res, next) => {
     try {
-        const blog = await Blog.findOne({ _id: req.body.blogId });
+        const blog = await Blog.findOne({ url: req.body.blogUrl });
         res.status(200).send({
             success: true,
             message: 'Single blog',
             data: blog
-        })
+        });
     } catch (error) {
         next(error);
     }

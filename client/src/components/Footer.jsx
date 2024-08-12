@@ -52,14 +52,11 @@ const Footer = () => {
                     </div>
                     <div className='w-1/2  md:w-full'>
                         <ul className="me-10  md:me-0 md:text-right">
-                            <li className='items-center'><Link to={"/categories"} className="block   mb-3 pe-3 md:px-3  rounded md:border-0 
+                            <li className='items-center'><Link to={"/allblogs"} className="block   mb-3 pe-3 md:px-3  rounded md:border-0 
                             md:p-0 ">
                                 Blogs</Link>
                             </li>
-                            <li><Link to={"/allblogs"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
-                            md:p-0 ">
-                                All Blogs</Link>
-                            </li>
+
                             <li><Link to={"/writeablog"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
                             md:p-0 ">
                                 Publish your blog</Link>

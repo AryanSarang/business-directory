@@ -53,7 +53,7 @@ export default function App() {
       <Route path="/applyconsultant" element={<ApplyConsultant />} />
       <Route path="/writeablog" element={<WriteABlog />} />
       <Route path="/allblogs" element={<AllBlogs />} />
-      <Route path='/blog/:blogId' element={<Blog />} />
+      <Route path='/blog/:blogUrl' element={<Blog />} />
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>

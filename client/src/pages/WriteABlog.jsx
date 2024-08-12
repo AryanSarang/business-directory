@@ -111,10 +111,20 @@ const WriteABlog = ({ placeholder }) => {
     };
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.id]: e.target.value,
-        })
+        const { id, value } = e.target;
+
+        let newFormData = { ...formData, [e.target.id]: e.target.value, };
+
+        if (id === "title") {
+            const urlSlug = value
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .trim();
+
+            newFormData = { ...newFormData, url: urlSlug };
+        }
+        setFormData(newFormData);
     }
 
     const handleSubmit = async (e) => {
@@ -185,7 +195,7 @@ const WriteABlog = ({ placeholder }) => {
                             :
                             <Link to={"/login"}>
                                 <button className="text-white tracking-wider gilroy-Bold hover:bg-white hover:text-slate-700 bg-slate-500 border-2 rounded-md border-slate-500 w-full p-2 ">
-                                    Log in to your account</button>
+                                    Log in to publish a blog</button>
                             </Link>}
                 </div>
                 <div className="md:w-3/4 h-fit bg-white rounded-lg">
