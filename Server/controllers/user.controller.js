@@ -46,6 +46,14 @@ export const updateUser = async (req, res, next) => {
             { new: true }
         );
 
+
+        if (req.body.avatar && updatedUser.isConsultant) {
+            await Consultant.updateOne(
+                { userId: updatedUser._id },
+                { $set: { avatar: req.body.avatar } }
+            );
+        }
+
         const { password, ...rest } = updatedUser._doc;
 
         res.status(200).json(rest);

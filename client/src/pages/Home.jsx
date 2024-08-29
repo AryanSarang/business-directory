@@ -12,7 +12,7 @@ const Home = () => {
         dispatch(clearError());
     }, []);
     return (
-        <main className="md:pt-12">
+        <main className="md:pt-12 ">
             <BannerImg />
             <Services />
             <HowItWorks />
