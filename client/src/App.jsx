@@ -23,7 +23,7 @@ import ScrollToTop from './Miscellaneous/ScrollToTop';
 import WriteABlog from './pages/WriteABlog';
 import AllBlogs from './pages/AllBlogs';
 import Blog from './pages/Blog';
-
+import AdminAllBlogs from './pages/Admin/AllBlogs.admin';
 
 export default function App() {
   return <BrowserRouter>
@@ -48,6 +48,7 @@ export default function App() {
         <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/consultants" element={<Consultants />} />
         <Route path="/admin/consultations" element={<AllConsultations />} />
+        <Route path="/admin/blogs" element={<AdminAllBlogs />} />
       </Route>
 
       <Route path="/applyconsultant" element={<ApplyConsultant />} />

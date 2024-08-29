@@ -111,48 +111,69 @@ const WriteABlog = ({ placeholder }) => {
     };
 
     const handleChange = (e) => {
-        const { id, value } = e.target;
+        let newFormData = { ...formData, [e.target.id]: e.target.value };
 
-        let newFormData = { ...formData, [e.target.id]: e.target.value, };
+        setFormData(newFormData);
+    }
 
-        if (id === "title") {
-            const urlSlug = value
+    const checkIfUrlExists = async (url) => {
+        try {
+            const response = await fetch(`/api/auth/checkurl?url=${encodeURIComponent(url)}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const { exists } = await response.json();
+            return exists;
+        } catch (error) {
+            console.error("Error checking URL:", error);
+            return false;
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            dispatch(blogSubmitStart());
+
+            let urlSlug = formData.title
                 .toLowerCase()
                 .replace(/[^a-z0-9\s-]/g, '')
                 .replace(/\s+/g, '-')
                 .trim();
 
-            newFormData = { ...newFormData, url: urlSlug };
-        }
-        setFormData(newFormData);
-    }
+            let suffix = 0;
+            let uniqueSlug = urlSlug;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(formData);
-        try {
-            dispatch(blogSubmitStart());
+            while (await checkIfUrlExists(uniqueSlug)) {
+                suffix++;
+                uniqueSlug = `${urlSlug}-${suffix}`;
+            }
+
+            const finalFormData = { ...formData, url: uniqueSlug };
+
             const res = await fetch("/api/user/blog-submit", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(finalFormData),
             });
+
             const data = await res.json();
             if (data.success === false) {
                 dispatch(blogSubmitFailure(data.message));
                 setStatus(data.message);
                 return;
             }
+
             dispatch(blogSubmitSuccess());
             setStatus("Blog is submitted, it will be published soon after a review.");
 
         } catch (error) {
             dispatch(blogSubmitFailure(error.message));
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     return (
         <main className="w-11/12 py-20 md:py-40 mx-auto">
@@ -163,7 +184,8 @@ const WriteABlog = ({ placeholder }) => {
                     <h3 className="text-xl md:text-2xl text-center mb-5 font-semibold tracking-wide">Blog Details</h3>
                     <input placeholder='Blog title' required type="text" className="border w-full px-3 py-2 border-slate-400 rounded-md"
                         id="title" onChange={handleChange} />
-
+                    <input placeholder='Author' required type="text" className="border w-full px-3 py-2 border-slate-400 rounded-md"
+                        id="author" onChange={handleChange} />
                     <MultiSelect options={options} onChange={setSelectedTags} />
 
                     <h5 className='font-medium text-slate-800'>Featured image (landscape):</h5>

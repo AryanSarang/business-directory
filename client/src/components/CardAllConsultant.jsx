@@ -61,7 +61,7 @@ const CardAllConsultant = ({ consultant }) => {
                         </svg>
                     </div>
                 </div>
-                <span className='font-normal'>Orders: 104</span>
+                <span className='font-normal text-sm'>Orders: {consultant.ordersNumber}</span>
             </div>
         </div>
     )

@@ -118,16 +118,21 @@ export const getConsultantById = async (req, res, next) => {
     }
 
 }
-
+export const checkUrl = async (req, res, next) => {
+    try {
+        const url = req.query.url;
+        const exists = await Blog.exists({ url });
+        res.json({ exists });
+    } catch (error) {
+        next(error);
+    }
+};
 export const getAllBlogs = async (req, res, next) => {
     try {
 
         const { page = 1, limit = 10, tag = 'All' } = req.query;
-
         const skip = (page - 1) * limit;
-
         let filter = { "approved": "approved" };
-
         if (tag !== 'All') {
             filter.tags = tag;
         }
@@ -137,7 +142,7 @@ export const getAllBlogs = async (req, res, next) => {
             .limit(Number(limit))
             .sort({ createdAt: -1 });
 
-        const totalBlogs = await Blog.countDocuments(filter);
+        const totalBlogs = await Blog.countDocuments({ approved: "approved", ...(tag !== 'All' && { tags: tag }) });
 
         res.status(200).send({
             success: true,
@@ -161,5 +166,28 @@ export const getBlogById = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 }
+
+export const getRelatedBlogs = async (req, res, next) => {
+    try {
+        const currentBlogId = req.query.id;
+        const currentBlog = await Blog.findById(currentBlogId);
+        if (!currentBlog) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
+
+        const tags = currentBlog.tags;
+
+        const relatedBlogs = await Blog.find({
+            _id: { $ne: currentBlogId },
+            tags: { $in: tags },
+            approved: "approved"
+        })
+            .sort({ createdAt: -1 })
+            .limit(3);
+
+        res.json(relatedBlogs);
+    } catch (error) {
+        next(error);
+    }
+};

@@ -27,6 +27,10 @@ const blogSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    author: {
+        type: String,
+        required: true,
+    },
     approved: {
         type: String,
         enum: ['pending', 'approved', 'rejected'],

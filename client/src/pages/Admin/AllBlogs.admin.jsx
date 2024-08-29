@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import BlogCard from "../components/BlogCard";
-import { clearError } from "../redux/user/userSlice";
+import { clearError } from "../../redux/user/userSlice";
+import ConsultationCard from "./ConsultaionCard";
+import BlogCard from "../../components/Admin/BlogCard.admin";
 
-const AllBlogs = () => {
-    const [allBlogs, setAllBlogs] = useState([]);
+const AdminAllBlogs = () => {
+    const [Blogs, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalBlogs, setTotalBlogs] = useState(0);
     const blogsPerPage = 10;
+    const [totalPages, setTotalPages] = useState(0);
     const dispatch = useDispatch();
     const [selectedTag, setSelectedTag] = useState('All');
 
@@ -20,17 +22,20 @@ const AllBlogs = () => {
 
     useEffect(() => {
         dispatch(clearError());
-
-        const getAllBlogs = async () => {
+        const getBlogs = async () => {
             try {
+                const token = localStorage.getItem("access_token");
                 const encodedTag = encodeURIComponent(selectedTag);
-                const res = await fetch(`/api/auth/allblogs?page=${currentPage}&limit=${blogsPerPage}&tag=${encodedTag}`, {
+
+                const res = await fetch(`/api/admin/getallblogs?page=${currentPage}&limit=${blogsPerPage}&tag=${encodedTag}`, {
                     method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
                 });
                 const data = await res.json();
-
                 if (data.success) {
-                    setAllBlogs(data.data);
+                    setBlogs(data.data);
                     setTotalBlogs(data.totalBlogs);
                 } else {
                     console.log(data);
@@ -38,12 +43,16 @@ const AllBlogs = () => {
             } catch (error) {
                 console.log(error);
             }
-        };
 
-        getAllBlogs();
-    }, [currentPage, selectedTag, dispatch]);
+        }
+        getBlogs();
+    }, []);
+    useEffect(() => {
+        setTotalPages(Math.ceil(totalBlogs / blogsPerPage));
 
-    const totalPages = Math.ceil(totalBlogs / blogsPerPage);
+    }, [totalBlogs]);
+
+
     const pathStyle = {
         display: 'inline',
         fill: 'none',
@@ -69,8 +78,8 @@ const AllBlogs = () => {
                     ))}
                 </select>
             </div>
-            <div className="items-center px-4 flex flex-col md:flex-row md:flex-wrap w-full">
-                {allBlogs.map((blog, index) => (
+            <div className="items-top px-4 flex flex-col md:flex-row md:flex-wrap w-full">
+                {Blogs.map((blog, index) => (
                     <div
                         key={index}
                         className={`py-3 w-full ${index % 3 === 0 ? 'basis-full' : 'md:basis-1/2'} ${(index + 2) % 3 === 0 ? 'md:pe-5' : ''}`}
@@ -105,4 +114,4 @@ const AllBlogs = () => {
     )
 };
 
-export default AllBlogs;
+export default AdminAllBlogs;

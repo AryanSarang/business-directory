@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const UserTable = ({ user }) => {
     return (
-        <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+        <tr className="odd:bg-white  even:bg-gray-50  border-b">
             <th scope="row" className="px-6 flex gap-5  items-center py-4 font-medium text-gray-900 whitespace-nowrap ">
                 <img className="w-10 h-10 rounded-full" src={user.avatar} alt={user.username} />{user.username}
             </th>

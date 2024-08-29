@@ -147,7 +147,7 @@ export const applyConsultant = async (req, res, next) => {
                     </div>
                     <div style="padding: 20px;">
                         <p>Hi admin,</p>
-                        <p>Your application for becoming a consultant is recieved with following details:</p>
+                        <p>${newConsultant.name} has applied for a consultant with the following details:</p>
                         <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
                             <tr>
                                 <th style="background-color: #f7f7f7; text-align: left;">Name</th>
@@ -178,7 +178,7 @@ export const applyConsultant = async (req, res, next) => {
                                 <td>${newConsultant.phone}</td>
                             </tr>
                         </table>
-                        <p>Your details are being verified, you will soon recieve a confirmation mail from us.</p>
+                        <p>Please verify the details and approve or reject the request.</p>
                         <p>Best regards,<br>Your Company</p>
                     </div>
                     <div style="background-color: #f7f7f7; padding: 10px 20px; text-align: center;">
@@ -346,7 +346,7 @@ export const submitBlog = async (req, res, next) => {
             type: 'blog-submit',
             message: `${user.username} has submitted a new blog ${req.body.title} and is waiting for the review`,
             data: {
-                consultantId: user._id,
+                userId: user._id,
                 name: user.username,
                 onClickPath: '/admin/blogs'
             },
@@ -366,7 +366,7 @@ export const submitBlog = async (req, res, next) => {
             data: {
                 consultantId: user._id,
                 name: user.username,
-                onClickPath: `/blog/update:${newBlog._id}`
+                onClickPath: `/blog/${req.body.url}`
             },
             timestamp: new Date()
         }
@@ -389,6 +389,10 @@ export const submitBlog = async (req, res, next) => {
                             <tr>
                                 <th style="background-color: #f7f7f7; text-align: left;">Title</th>
                                 <td>${req.body.title}</td>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #f7f7f7; text-align: left;">Title</th>
+                                <td>${req.body.author}</td>
                             </tr>
                             <tr>
                                 <th style="background-color: #f7f7f7; text-align: left;">Featured Image</th>

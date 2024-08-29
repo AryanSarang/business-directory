@@ -80,7 +80,18 @@ const userSlice = createSlice({
         blogSubmitSuccess: (state, action) => {
             state.loading = false;
             state.error = null;
-        }
+        },
+        blogApprovalStart: (state) => {
+            state.loading = true;
+        },
+        blogApprovalFailure: (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        },
+        blogApprovalSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
+        },
 
     }
 });
@@ -102,6 +113,9 @@ export const { signInStart,
     blogSubmitStart,
     blogSubmitFailure,
     blogSubmitSuccess,
+    blogApprovalStart,
+    blogApprovalFailure,
+    blogApprovalSuccess,
 
 
     clearError

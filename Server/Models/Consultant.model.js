@@ -59,6 +59,10 @@ const consultantSchema = new mongoose.Schema({
         type: String,
         default: '0'
     },
+    minHour: {
+        type: String,
+        default: '1'
+    },
     tags: {
         type: Array,
         default: []

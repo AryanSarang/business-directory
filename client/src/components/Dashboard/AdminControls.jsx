@@ -11,6 +11,8 @@ const AdminControls = () => {
              hover:text-slate-700 bg-slate-500 border-2 rounded-md border-slate-500  p-2 text-center">Consultants list</Link>
                 <Link to="/admin/consultations" className="text-white tracking-wider gilroy-Bold hover:bg-white
              hover:text-slate-700 bg-slate-500 border-2 rounded-md border-slate-500  p-2 text-center">All Consultations</Link>
+                <Link to="/admin/blogs" className="text-white tracking-wider gilroy-Bold hover:bg-white
+             hover:text-slate-700 bg-slate-500 border-2 rounded-md border-slate-500  p-2 text-center">All Blogs</Link>
             </div>
 
         </div>

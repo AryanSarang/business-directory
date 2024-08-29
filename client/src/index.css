@@ -73,6 +73,7 @@ body {
 
 .gilroy-extraBold {
     font-family: 'Gilroy-ExtraBold';
+    letter-spacing: 0.005em;
 }
 
 .text-md {
@@ -82,6 +83,11 @@ body {
 
 .bg-custom-white {
     background-color: rgb(249, 249, 249);
+}
+
+.text-13 {
+    font-size: 13px;
+    line-height: 1.25rem;
 }
 
 .h-95 {
@@ -132,7 +138,9 @@ body {
 }
 
 /* swiper */
-
+.mySwiper {
+    margin-left: 0 !important;
+}
 
 
 .swiper-slide {
@@ -283,4 +291,111 @@ textarea {
 /* remove jodit editor branding */
 .jodit-status-bar .jodit-status-bar__item-right:last-child {
     display: none;
+}
+
+/* infinite brand slider */
+
+.infiniteSlider {
+    width: 100%;
+    height: var(--brandBlockHeight);
+    overflow: hidden;
+    mask-image: linear-gradient(to right,
+            transparent,
+            #000 10% 90%,
+            transparent)
+}
+
+.infiniteSlider .list {
+    display: flex;
+    width: 100%;
+    min-width: calc(var(--brandBlockWidth)*var(--quantity));
+    position: relative;
+}
+
+.infiniteSlider .list .item {
+    width: var(--brandBlockWidth);
+    height: var(--brandBlockHeight);
+    position: absolute;
+    left: 100%;
+    animation: autoRun 10s linear infinite;
+    animation-delay: calc((var(--position) - 10) * 1s);
+    display: flex;
+    transition: filter 0.5s;
+}
+
+.infiniteSlider .list .item img {
+    width: 100%;
+    place-self: center;
+}
+
+@keyframes autoRun {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: calc(var(--brandBlockWidth) * -1);
+    }
+}
+
+.infiniteSlider:hover .item {
+    animation-play-state: paused !important;
+    filter: grayscale(1);
+}
+
+.infiniteSlider .item:hover {
+    filter: grayscale(0);
+}
+
+/* testimonial infinite scroll effect */
+
+.testimonialScoll {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom,
+            transparent,
+            #000 10% 95%,
+            transparent);
+}
+
+.testimonialScoll .list {
+    height: 100%;
+    min-height: calc(var(--testimonialCardHeight)*var(--cardQuantity) - 230px);
+    position: relative;
+}
+
+.testimonialScoll .list .testimonialCard {
+    height: var(--testimonialCardHeight);
+    position: absolute;
+    top: 100%;
+    min-height: var(--testimonialCardHeight);
+    animation: autoRunTestimonials var(--timeInUnit) linear infinite;
+    animation-delay: calc(((var(--cardPosition) - var(--time)) * (var(--timeInUnit)/3)));
+
+}
+
+@keyframes autoRunTestimonials {
+    from {
+        top: 100%;
+    }
+
+    to {
+        top: calc(var(--testimonialCardHeight) * -1);
+    }
+}
+
+.testimonialScoll:hover .testimonialCard {
+    animation-play-state: paused !important;
+}
+
+@media(max-width:768px) {
+    .testimonialScoll {
+        max-height: calc(var(--testimonialCardHeight)*var(--cardQuantity)/2 - 230px);
+    }
+
+    .testimonialScoll .list .testimonialCard {
+        animation-delay: calc(((var(--cardPosition) - var(--time)) * (var(--timeInUnit)/6)));
+
+    }
 }

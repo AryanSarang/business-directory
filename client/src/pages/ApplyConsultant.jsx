@@ -92,6 +92,7 @@ const ApplyConsultant = () => {
                                 <option>UI UX</option>
                                 <option>Search Engine Optimization</option>
                                 <option>Customer Relationship Management</option>
+                                <option>Brand Strategy</option>
                             </select>
                         </div>
                     </div>
@@ -139,7 +140,7 @@ const ApplyConsultant = () => {
 
                     </div>}
                 {currentUser && (<button type="submit" className="bg-slate-700 text-white p-2 px-5  rounded-lg
-                hover:opacity-90 disabled:opacity-80 tracking-wider">Apply for consulatant</button>)}
+                hover:opacity-90 disabled:opacity-80 tracking-wider" disabled={loading}>Apply for consulatant</button>)}
 
                 <h5 className='my-5 '>After submission, Your details will be reviewed for registering as a consultant</h5>
             </form>

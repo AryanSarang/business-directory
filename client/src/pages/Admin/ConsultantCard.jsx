@@ -36,7 +36,7 @@ const ConsultantCard = ({ consultant }) => {
     }
 
     return (
-        <div className="w-full basis-1/1 mx-auto md:basis-1/3 shrink-0 p-3 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full basis-1/1 mx-auto md:basis-1/3 shrink-0 p-3 max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <div className="flex justify-end px-4 pt-4">
                 {/* <button id="dropdownButton" data-dropdown-toggle="dropdown" className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
                     <span className="sr-only">Open dropdown</span>
@@ -57,15 +57,15 @@ const ConsultantCard = ({ consultant }) => {
             </div>
             <div className="flex flex-col items-center py-10">
                 <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={consultant.avatar} alt={consultant.name} />
-                <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{consultant.name}</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{consultant.specialization}</span>
+                <h5 className="mb-1 text-xl font-medium text-gray-900 ">{consultant.name}</h5>
+                <span className="text-sm text-gray-500 ">{consultant.specialization}</span>
                 <div className="flex gap-1">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Contact: </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{consultant.email}, </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{consultant.phone}</span>
+                    <span className="text-sm text-gray-500 ">Contact: </span>
+                    <span className="text-sm text-gray-500 ">{consultant.email}, </span>
+                    <span className="text-sm text-gray-500">{consultant.phone}</span>
 
                 </div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-gray-500">
                     Charges: Rs. {consultant.feesPerConsultation}/-</span>
                 {
                     consultant.approved === "pending" && btnVisible && <div className="flex mt-4 gap-3 md:mt-6">
