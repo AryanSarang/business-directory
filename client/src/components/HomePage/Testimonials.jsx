@@ -1,4 +1,4 @@
-import TestimonialCard from "./TestimonialCard";
+import React, { useRef, useState } from 'react';
 import star from '../../assets/star.png';
 import starHalf from '../../assets/half-star.png';
 import Anuj from '../../assets/Clients/Anuj.webp';
@@ -10,6 +10,14 @@ import Manish from '../../assets/Clients/Manish.webp';
 import Madhav from '../../assets/Clients/Madhav.webp';
 import Kriti from '../../assets/Clients/Kriti.webp';
 import Akanksha from '../../assets/Clients/Akanksha.webp';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css/navigation';
+
 
 
 const Testimonials = () => {
@@ -106,12 +114,48 @@ const Testimonials = () => {
             <div>
                 <h1 className='text-2xl text-center md:text-3xl mb-6 md:mb-10'>Testimonials</h1>
             </div>
-            <div className="flex justify-between gap-9 md:px-9">
-                <div className="basis-1/1 md:basis-1/2 lg:basis-1/3 testimonialScoll lg:hidden md:hidden" style={{ "--testimonialCardHeight": "270px", "--cardQuantity": 6, "--timeInUnit": "18s", "--time": "18" }} >
-                    <div className="list">
+            <div className='user-select-none'>
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={20}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    loop={true}
+                    breakpoints={{
+                        540: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        }
+                    }}
+                    navigation={true}
+                    modules={[Navigation]}
+                    className="testimonialSwiper pb-7 select-none"
+                >
+                    {
+                        testimonials && testimonials.map((testimonial, index) =>
+                            <SwiperSlide key={index} className='flex flex-col bg-white rounded-xl py-5 px-7 border border-solid 
+                             border-[#222222]/10 shadow-[0_7px_14px_#EAEAEA] h-64'>
+                                <div className='select-none h-full flex flex-col justify-between'>
+                                    <h3 className="text-sm text-left font-sans line-clamp-[9] select-none">{testimonial.text}</h3>
+                                    <div className="flex gap-2 items-center">
+                                        <div>
+                                            <img src={testimonial.img} alt={testimonial.name} className="w-8 h-8 bg-black rounded-full" />
+                                        </div>
+                                        <div className="text-left">
+                                            <h4 className="text-sm">{testimonial.name}</h4>
+                                            <span>{testimonial.rating}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SwiperSlide>)
+                    }
 
-                    </div>
-                </div>
+                </Swiper>
             </div>
         </section >
     )

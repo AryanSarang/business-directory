@@ -143,7 +143,7 @@ body {
 }
 
 
-.swiper-slide {
+.mySwiper .swiper-slide {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,7 +152,7 @@ body {
     color: #fff;
 }
 
-.swiperSlides {
+.mySwiper .swiperSlides {
     background-color: white;
 }
 
@@ -348,7 +348,7 @@ textarea {
 }
 
 /* testimonial infinite scroll effect */
-
+/* 
 .testimonialScoll {
     width: 100%;
     height: 100%;
@@ -398,15 +398,4 @@ textarea {
         animation-delay: calc(((var(--cardPosition) - var(--time)) * (var(--timeInUnit)/6)));
 
     }
-}
-
-.consultantCompanies .p-chips-token{
-background-color: #e5e7eb	;
-border-radius: 12px;
-padding-right: 10px;
-margin:0 4px 2px ;
-}
-
-.consultantCompanies  .p-chips-multiple-container{
-    width: 100%;
 }
