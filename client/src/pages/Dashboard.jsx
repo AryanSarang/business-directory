@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from '../redux/user/userSlice';
 import Consultations from '../components/Dashboard/ConsultDashboard';
 import AdminControls from '../components/Dashboard/AdminControls';
-import ConsultantDetails from '../components/Dashboard/ConsultantDetails';
-
 
 
 const Dashboard = () => {
@@ -24,8 +22,7 @@ const Dashboard = () => {
                 <Notifications />
                 <Consultations />
                 <Profile />
-            </div >
-                {currentUser.isConsultant && <ConsultantDetails/> }
+            </div>
             {/* <ReviewDashboard /> */}
             {currentUser && currentUser.isAdmin === true && <AdminControls />}
         </main>
