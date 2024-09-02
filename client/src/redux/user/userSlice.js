@@ -92,17 +92,6 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-        constultantUpdateStart: (state) => {
-            state.loading = true;
-        },
-        consultantUpdateFailure: (state, action) => {
-            state.error = action.payload;
-            state.loading = false;
-        },
-        consultantUpdateSuccess: (state, action) => {
-            state.loading = false;
-            state.error = null;
-        },
 
     }
 });
@@ -127,10 +116,6 @@ export const { signInStart,
     blogApprovalStart,
     blogApprovalFailure,
     blogApprovalSuccess,
-    constultantUpdateStart,
-    consultantUpdateFailure,
-    consultantUpdateSuccess,
-
 
 
     clearError

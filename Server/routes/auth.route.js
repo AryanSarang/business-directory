@@ -14,5 +14,4 @@ router.get("/allblogs", getAllBlogs);
 router.post("/getBlogById", getBlogById);
 router.get("/checkurl", checkUrl);
 router.get("/getrelatedblogs", getRelatedBlogs);
-
 export default router;
