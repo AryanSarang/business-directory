@@ -435,3 +435,43 @@ export const submitBlog = async (req, res, next) => {
     }
 }
 
+export const fetchConsultant = async(req, res, next) => {
+    try {
+        const userId =  req.body.userId;
+        const consultant = await Consultant.findOne({userId: userId})
+        res.status(200).json({
+            success: true,
+            data: consultant   
+        })
+    } catch (error) {
+        next(error); 
+    }
+}
+
+export const updateConsultant = async(req, res, next) => {
+    try {
+        
+        const userId = req.user.id;
+        if(userId){
+            const user = await User.findById(userId);
+            if(user.isConsultant){
+                const body = req.body;
+                console.log(body)
+                await Consultant.findOneAndUpdate({userId},{$set:body}
+                )
+                res.status(200).json({
+                    success: true,
+                    message: "consultant details updated successfully"
+                })
+            }
+            else{
+                res.json({
+                    message: "user is not consultant"
+                })
+            }
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
