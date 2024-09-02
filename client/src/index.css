@@ -143,7 +143,7 @@ body {
 }
 
 
-.swiper-slide {
+.mySwiper .swiper-slide {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,7 +152,7 @@ body {
     color: #fff;
 }
 
-.swiperSlides {
+.mySwiper .swiperSlides {
     background-color: white;
 }
 
@@ -348,7 +348,7 @@ textarea {
 }
 
 /* testimonial infinite scroll effect */
-
+/* 
 .testimonialScoll {
     width: 100%;
     height: 100%;
@@ -398,4 +398,18 @@ textarea {
         animation-delay: calc(((var(--cardPosition) - var(--time)) * (var(--timeInUnit)/6)));
 
     }
+} */
+
+.testimonialSwiper .swiper-slide {
+    height: 16rem;
+}
+
+.testimonialSwiper {
+    padding: 20px 10px !important;
+}
+
+.testimonialSwiper .swiper-button-prev::after,
+.testimonialSwiper .swiper-button-next::after {
+    color: gray;
+    font-size: 30px;
 }
