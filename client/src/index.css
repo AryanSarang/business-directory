@@ -399,3 +399,14 @@ textarea {
 
     }
 }
+
+.consultantCompanies .p-chips-token{
+background-color: #e5e7eb	;
+border-radius: 12px;
+padding-right: 10px;
+margin:0 4px 2px ;
+}
+
+.consultantCompanies  .p-chips-multiple-container{
+    width: 100%;
+}
