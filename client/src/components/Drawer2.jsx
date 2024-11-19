@@ -6,8 +6,12 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import DrawerLogo from '../assets/drawerLogo.png';
 import { logOutUserFailure, logOutUserStart, logOutUserSuccess, notificationFailure, notificationStart, notificationSuccess } from "../redux/user/userSlice";
+import Notifications from './Dashboard/Notifications';
+
 
 const Drawer2 = () => {
+
+    const [showNotification, setShowNotification] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
     const { currentUser } = useSelector(state => state.user);
     const dispatch = useDispatch();
@@ -68,6 +72,29 @@ const Drawer2 = () => {
         }
     };
 
+    if(showNotification){
+        const seenNotification = async () => {
+            try {
+                const res = await fetch('/api/user/seenotification',{
+                    method : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: currentUser._id }),
+
+                });
+                const data = await res.json();
+                if(!data.success){
+                    console.log("erro")
+                }
+                dispatch(notificationSuccess(data.data));
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        seenNotification()
+    }
+
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
     };
@@ -75,7 +102,8 @@ const Drawer2 = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
     return (
-        <>
+        <>  
+            {currentUser? <Notifications showNotification={showNotification} onClose={() => setShowNotification(false)}/> : ''}
             <div className="text-center">
                 <button
                     className="text-slate-900 rounded-lg text-sm px-5 py-2.5"
@@ -142,15 +170,15 @@ const Drawer2 = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={"/dashboard"} onClick={toggleDrawer} className="flex items-center mobileMenuLink p-2 rounded-lg text-white hover:bg-gray-700 group">
+                                <div  onClick={toggleDrawer} className="flex items-center mobileMenuLink p-2 rounded-lg text-white hover:bg-gray-700 group" >
                                     <FaBell className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" />
-                                    <span className="flex justify-between w-full ml-3 whitespace-nowrap">Notifications</span>
+                                    <span className="flex justify-between w-full ml-3 whitespace-nowrap" onClick={() => setShowNotification(true)}>Notifications</span>
                                     {currentUser && (
                                         <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium rounded-full bg-blue-900 text-blue-300">
-                                            {currentUser.notification.length}
+                                            {currentUser.notification.length - currentUser.seenNotification.length}
                                         </span>
                                     )}
-                                </Link>
+                                </div>
                             </li>
                             <li>
                                 <button

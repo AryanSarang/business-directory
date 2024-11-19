@@ -24,8 +24,75 @@ import WriteABlog from './pages/WriteABlog';
 import AllBlogs from './pages/AllBlogs';
 import Blog from './pages/Blog';
 import AdminAllBlogs from './pages/Admin/AllBlogs.admin';
+import { io } from 'socket.io-client'
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { notificationFailure, notificationStart, notificationSuccess } from './redux/user/userSlice';
+import UpdateABlog from './pages/UpdateABlog';
+import Performance from './pages/Performance';
+
+
 
 export default function App() {
+  const { currentUser} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const socket = io("http://localhost:3000");
+    useEffect(() => {
+
+        try {
+            socket.connect()
+            if(currentUser){
+                if(currentUser.isConsultant){
+                socket.emit("consultant-login", currentUser._id)
+                }
+                else if(currentUser.isAdmin){
+                    socket.emit('admin-login', currentUser._id)
+                }
+                else{
+                socket.emit('user-login', currentUser._id)
+                }
+            }
+
+
+            socket.on("consultant-update", (data) => {
+                if (data.success) {
+                    dispatch(notificationSuccess(data.data));
+                    return;
+                }
+                dispatch(notificationFailure(data.message));
+            })
+
+            socket.on("blog-approve", (data) => {
+                if(data.success){
+                    dispatch(notificationSuccess(data.data));
+                }else{
+                    dispatch(notificationFailure(data));
+                }
+            })
+            socket.on("blog-update", (data) => {
+                if(data.success){
+                    dispatch(notificationSuccess(data.data));
+                }else{
+                    dispatch(notificationFailure(data));
+                }
+            })
+            
+            socket.on("apply-consultant",(data) => {
+              if(data.success){
+                dispatch(notificationStart(data.data));
+              }else{
+                dispatch(notificationFailure(data));
+              }
+            })
+
+        } catch (error) {
+            dispatch(notificationFailure(error.message));
+        }
+        
+        
+    }, [currentUser, dispatch]);
+  
+
   return <BrowserRouter>
     <ScrollToTop />
     <Header />
@@ -39,7 +106,7 @@ export default function App() {
       </Route>
 
       <Route path="/about" element={<About />} />
-      <Route path="/allconsultants" element={<AllConsultants />} />
+      <Route path="/allconsultants/:id" element={<AllConsultants />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/featured" element={<Featured />} />
       <Route path="/businessconsultancy" element={<BusinessConsultancy />} />
@@ -53,12 +120,13 @@ export default function App() {
 
       <Route path="/applyconsultant" element={<ApplyConsultant />} />
       <Route path="/writeablog" element={<WriteABlog />} />
+      <Route path="/updateablog/:blogUrl" element={<UpdateABlog />} />
       <Route path="/allblogs" element={<AllBlogs />} />
       <Route path='/blog/:blogUrl' element={<Blog />} />
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
-
+      <Route path='/performance' element={<Performance/>}/>
     </Routes>
     <Footer />
   </BrowserRouter>

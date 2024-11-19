@@ -103,14 +103,13 @@ const ConsultantDetails = () => {
 
 
 
-    return <div className="md:w-1/3 bg-white px-12 py-4 shadow-md rounded-lg ">
+    return <div className=" px-1 md:px-12 py-4 ">
         <div className="flex justify-center font-bold text-lg">
             Consultant details
         </div>
         <form >
 
-
-            <div className="flex flex-col  gap-y-4">
+            <div className="grid md:grid-cols-2   gap-y-4 gap-x-10">
                 <div>
                     <span className="font-semibold text-sm tracking-wide">
                         Name:

@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CardAllConsultant from "../components/CardAllConsultant";
 import { clearError } from "../redux/user/userSlice";
+import { useParams } from 'react-router-dom'
 
 const AllConsultants = () => {
+    const { id } = useParams();
     const [consultants, setConsultants] = useState([]);
     const dispatch = useDispatch();
-    const [selectedSpecialization, setSelectedSpecialization] = useState('All');
+    const [selectedSpecialization, setSelectedSpecialization] = useState(id);
 
     const specializations = ['All', ...new Set(consultants.map(c => c.specialization))];
 
@@ -18,6 +20,9 @@ const AllConsultants = () => {
         ? consultants
         : consultants.filter(consultant => consultant.specialization === selectedSpecialization);
 
+    useEffect(() => {
+        setSelectedSpecialization(id);
+    },[id])
 
     useEffect(() => {
         dispatch(clearError());

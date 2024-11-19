@@ -73,7 +73,14 @@ export const consultantApprove = async (req, res, next) => {
             timestamp: new Date()
         });
         user.isConsultant = approved === "approved";
-        await user.save();
+        user.save().then(() => {
+            if (global.io && global.userSockets[user._id]) {
+                global.io.to(global.userSockets[user._id]).emit('consultant-approve', {
+                    success: true,
+                    data: user, // Add consultation data if applicable
+                });
+            }
+        });
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,
@@ -159,7 +166,14 @@ export const blogApprove = async (req, res, next) => {
             },
             timestamp: new Date()
         });
-        await user.save();
+        user.save().then(() => {
+            if (global.io && global.userSockets[user._id]) {
+                global.io.to(global.userSockets[user._id]).emit('blog-approve', {
+                    success: true,
+                    data: user, // Add consultation data if applicable
+                });
+            }
+        });
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: user.email,

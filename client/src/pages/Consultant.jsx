@@ -104,6 +104,51 @@ const Consultant = () => {
             consultantName: consultantName
         }));
     }, [consultantName]);
+
+
+    const refreshAccessToken = async (refreshToken) => {
+        const url = `https://oauth2.googleapis.com/token`;
+        const body = new URLSearchParams();
+        body.append('client_id', "1010475117617-8d7dbdv3jalhfbte64dar55ih0a19isc.apps.googleusercontent.com");
+        body.append('client_secret', "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");
+        body.append('refresh_token', refreshToken);
+        body.append('grant_type', 'refresh_token');
+    
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: body.toString(),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                const newAccessToken = data.access_token;
+                const newExpiresIn = data.expires_in;
+    
+                // Update the tokens in local storage
+                localStorage.setItem('google', newAccessToken);
+                // Update the expiry time if you have it stored
+                const tokenExpiryTime = Date.now() + newExpiresIn * 1000;
+                localStorage.setItem('google_token_expiry', tokenExpiryTime.toString());
+    
+                return newAccessToken; // Return the new access token
+            } else {
+                const error = await response.json();
+                console.error('Error refreshing access token:', error);
+            }
+        } catch (error) {
+            console.error('Error refreshing access token:', error);
+        }
+    
+        return null; // Return null if there was an error
+    };
+    
+
+
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -112,6 +157,80 @@ const Consultant = () => {
     }
     const handleBooking = async (e) => {
         e.preventDefault();
+
+        const createCalendarEvent = async (accessToken) => {
+            const expiryTime = localStorage.getItem('google_token_expiry');
+        
+            if (!expiryTime || Date.now() > parseInt(expiryTime)) {
+                const refreshToken = localStorage.getItem('google_refresh_token');
+                if (refreshToken) {
+                    const newAccessToken = await refreshAccessToken(refreshToken);
+                    if (newAccessToken) {
+                        accessToken = newAccessToken; // Update the access token
+                    } else {
+                        console.error("Failed to refresh access token. Please re-authenticate.");
+                        return;
+                    }
+                } else {
+                    console.error("No refresh token found. Please re-authenticate.");
+                    return;
+                }
+            }
+
+            try {
+                // Hardcoded start time (Tomorrow, 10:00 AM)
+                const startTime = new Date();
+                startTime.setDate(startTime.getDate() + 2); // Set to tomorrow
+                startTime.setHours(10, 0, 0); // 10:00 AM
+        
+                // Hardcoded end time (Tomorrow, 11:00 AM)
+                const endTime = new Date(startTime);
+                endTime.setHours(11, 0, 0); // 11:00 AM
+        
+                const event = {
+                    summary: 'Newsummary yo',
+                    description: 'This is a test event.',
+                    start: {
+                        dateTime: startTime.toISOString(),
+                        timeZone: 'America/Los_Angeles', // Adjust time zone as needed
+                    },
+                    end: {
+                        dateTime: endTime.toISOString(),
+                        timeZone: 'America/Los_Angeles',
+                    },
+                };
+        
+                const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(event),
+                });
+        
+                if (response.ok) {
+                    const eventData = await response.json();
+                    console.log('Google Calendar event created:', eventData);
+                } else {
+                    const error = await response.json();
+                    console.error('Error creating Google Calendar event:', error);
+                }
+            } catch (error) {
+                console.error('Error creating calendar event:', error);
+            }
+        
+            // Proceed with the API call using the (possibly refreshed) access token
+            // ... your code to create calendar event
+        };
+        
+        // Usage
+
+        const googletoken = localStorage.getItem('google');
+        if(googletoken){
+            createCalendarEvent(googletoken);
+        }
+            
 
         dispatch(clearError());
         try {
@@ -140,6 +259,7 @@ const Consultant = () => {
             dispatch(consulatantFormFailure(error.message));
             setStatus(error.message);
         }
+        
     }
     var companiesName;
     if (consultant.companies && consultant.companies.length > 0) {

@@ -13,9 +13,32 @@ const OAuth = () => {
     const handleGoogleClick = async () => {
         try {
             const provider = new GoogleAuthProvider();
+            provider.addScope('https://www.googleapis.com/auth/calendar');
+            provider.setCustomParameters({
+                access_type: 'offline',
+                prompt: 'consent', // Request the user to consent to offline access
+            });
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
 
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            if (!credential) {
+                throw new Error("Google Auth credential is missing");
+            }
+            const accessToken = credential.accessToken;
+            const refreshToken = result._tokenResponse?.refreshToken;
+            const expiresIn = result._tokenResponse.expiresIn;
+            localStorage.setItem('google_refresh_token', refreshToken);
+            localStorage.setItem('google',accessToken);
+            if (expiresIn) {
+                const tokenExpiryTime = Date.now() + expiresIn * 1000; // Calculate expiration time in milliseconds
+                localStorage.setItem('google_token_expiry', tokenExpiryTime.toString()); // Store the expiration time
+                console.log("Token Expiry Time:", tokenExpiryTime);
+            }
+            if (!accessToken) {
+                throw new Error("Access token is missing from credential");
+            }
+            
             const res = await fetch('/api/auth/google', {
                 method: 'POST',
                 headers: {
@@ -24,9 +47,10 @@ const OAuth = () => {
                 body: JSON.stringify({
                     name: result.user.displayName,
                     email: result.user.email,
-                    photo: result.user.photoURL
+                    photo: result.user.photoURL,
                 })
             })
+            
             const data = await res.json();
             dispatch(signInSuccess(data));
             navigate('/');

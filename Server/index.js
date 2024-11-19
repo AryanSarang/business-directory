@@ -6,7 +6,8 @@ import authRouter from './routes/auth.route.js';
 import adminRouter from './routes/admin.route.js';
 import cookieParser from 'cookie-parser';
 dotenv.config();
-
+import { Server } from 'socket.io';
+import { createServer } from "http";
 
 
 
@@ -18,10 +19,71 @@ mongoose.connect(process.env.MONGOURL).then(() => {
 
 
 const app = express();
-app.use(express.json());
-
+const server =  createServer(app);
+const io = new Server(server,{
+    cors:{
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST", "DELETE"],
+        credentials: true
+    }
+});
+// app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ limit: '1mb', extended: true }));
 app.use(cookieParser());
 
+global.io =io;
+global.userSockets = {};       // { userId: socketId }
+global.consultantSockets = {}; // { consultantId: socketId }
+global.adminSockets = {};   
+
+io.on('connection', (socket) => {
+    // Handle user login
+    socket.on('user-login', (userId) => {
+        global.userSockets[userId] = socket.id;
+        console.log("user",socket.id);
+        console.log("user-tab",global.userSockets)
+    });
+
+    // Handle consultant login
+    socket.on('consultant-login', (consultantId) => {
+        global.consultantSockets[consultantId] = socket.id;
+        global.userSockets[consultantId] = socket.id;
+        console.log("consultant",socket.id)
+        console.log("consultant",global.consultantSockets)
+        console.log("consultant-user",global.userSockets)
+    });
+
+    // Handle admin login
+    socket.on('admin-login', (adminId) => {
+        global.adminSockets[adminId] = socket.id;
+        console.log("admin",global.adminSockets);
+    });
+
+    // Handle socket disconnection
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+        // Clean up global socket storage
+        for (const [key, value] of Object.entries(global.userSockets)) {
+            if (value === socket.id) {
+                delete global.userSockets[key];
+                break;
+            }
+        }
+        for (const [key, value] of Object.entries(global.consultantSockets)) {
+            if (value === socket.id) {
+                delete global.consultantSockets[key];
+                break;
+            }
+        }
+        for (const [key, value] of Object.entries(global.adminSockets)) {
+            if (value === socket.id) {
+                delete global.adminSockets[key];
+                break;
+            }
+        }
+    });
+});
 
 
 app.use('/api/user', userRouter);
@@ -41,6 +103,6 @@ app.use((err, req, res, next) => {
 
 
 // run sever
-app.listen(3000, () => {
+server.listen(3000, () => {
     console.log("Server running on port 3000")
 });
