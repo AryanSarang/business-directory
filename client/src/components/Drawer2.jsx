@@ -72,11 +72,11 @@ const Drawer2 = () => {
         }
     };
 
-    if(showNotification){
+    if (showNotification) {
         const seenNotification = async () => {
             try {
-                const res = await fetch('/api/user/seenotification',{
-                    method : 'POST',
+                const res = await fetch('/api/user/seenotification', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -84,7 +84,7 @@ const Drawer2 = () => {
 
                 });
                 const data = await res.json();
-                if(!data.success){
+                if (!data.success) {
                     console.log("erro")
                 }
                 dispatch(notificationSuccess(data.data));
@@ -102,8 +102,8 @@ const Drawer2 = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
     return (
-        <>  
-            {currentUser? <Notifications showNotification={showNotification} onClose={() => setShowNotification(false)}/> : ''}
+        <>
+            {currentUser ? <Notifications showNotification={showNotification} onClose={() => setShowNotification(false)} /> : ''}
             <div className="text-center">
                 <button
                     className="text-slate-900 rounded-lg text-sm px-5 py-2.5"
@@ -158,7 +158,7 @@ const Drawer2 = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={"/allconsultants"} onClick={toggleDrawer} className="flex mobileMenuLink items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                                <Link to={"/allconsultants/all"} onClick={toggleDrawer} className="flex mobileMenuLink items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                     <FaUserTie className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" />
                                     <span className="ml-3 whitespace-nowrap">All consultants</span>
                                 </Link>
@@ -170,7 +170,7 @@ const Drawer2 = () => {
                                 </Link>
                             </li>
                             <li>
-                                <div  onClick={toggleDrawer} className="flex items-center mobileMenuLink p-2 rounded-lg text-white hover:bg-gray-700 group" >
+                                <div onClick={toggleDrawer} className="flex items-center mobileMenuLink p-2 rounded-lg text-white hover:bg-gray-700 group" >
                                     <FaBell className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" />
                                     <span className="flex justify-between w-full ml-3 whitespace-nowrap" onClick={() => setShowNotification(true)}>Notifications</span>
                                     {currentUser && (

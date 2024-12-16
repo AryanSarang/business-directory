@@ -22,7 +22,7 @@ const AllConsultants = () => {
 
     useEffect(() => {
         setSelectedSpecialization(id);
-    },[id])
+    }, [id])
 
     useEffect(() => {
         dispatch(clearError());
@@ -46,8 +46,8 @@ const AllConsultants = () => {
         getConsultants();
     }, []);
     return (
-        <main className="py-16 md:p-32">
-            <h1 className="text-3xl md:text-5xl text-center mb-16 font-semibold tracking-wider">Find a mentor, you <b className="gilroy-extraBold">admire</b></h1>
+        <main className="pb-14 md:py-40 px-4 md:px-32 ">
+            <h1 className="text-3xl md:text-5xl text-center  my-7 md:mb-24">Find a mentor, you <b className="gilroy-extraBold">admire</b></h1>
             <div id="filter" className="mb-8 flex justify-center md:justify-start mx-3">
                 <select
                     className="p-2 px-4 border-gray-300 rounded font-semibold focus:ring-slate-400 border-0 shadow-sm"

@@ -30,68 +30,70 @@ import { useEffect } from 'react';
 import { notificationFailure, notificationStart, notificationSuccess } from './redux/user/userSlice';
 import UpdateABlog from './pages/UpdateABlog';
 import Performance from './pages/Performance';
+import AllCompanies from './pages/AllCompanies';
 
 
 
 export default function App() {
-  const { currentUser} = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const socket = io("http://localhost:3000");
-    useEffect(() => {
+  useEffect(() => {
 
-        try {
-            socket.connect()
-            if(currentUser){
-                if(currentUser.isConsultant){
-                socket.emit("consultant-login", currentUser._id)
-                }
-                else if(currentUser.isAdmin){
-                    socket.emit('admin-login', currentUser._id)
-                }
-                else{
-                socket.emit('user-login', currentUser._id)
-                }
-            }
-
-
-            socket.on("consultant-update", (data) => {
-                if (data.success) {
-                    dispatch(notificationSuccess(data.data));
-                    return;
-                }
-                dispatch(notificationFailure(data.message));
-            })
-
-            socket.on("blog-approve", (data) => {
-                if(data.success){
-                    dispatch(notificationSuccess(data.data));
-                }else{
-                    dispatch(notificationFailure(data));
-                }
-            })
-            socket.on("blog-update", (data) => {
-                if(data.success){
-                    dispatch(notificationSuccess(data.data));
-                }else{
-                    dispatch(notificationFailure(data));
-                }
-            })
-            
-            socket.on("apply-consultant",(data) => {
-              if(data.success){
-                dispatch(notificationStart(data.data));
-              }else{
-                dispatch(notificationFailure(data));
-              }
-            })
-
-        } catch (error) {
-            dispatch(notificationFailure(error.message));
+    try {
+      socket.connect()
+      if (currentUser) {
+        if (currentUser.isAdmin) {
+          socket.emit('admin-login', currentUser._id)
         }
-        
-        
-    }, [currentUser, dispatch]);
-  
+        else if (currentUser.isConsultant) {
+          socket.emit("consultant-login", currentUser._id)
+        }
+
+        else {
+          socket.emit('user-login', currentUser._id)
+        }
+      }
+
+
+      socket.on("consultant-update", (data) => {
+        if (data.success) {
+          dispatch(notificationSuccess(data.data));
+          return;
+        }
+        dispatch(notificationFailure(data.message));
+      })
+
+      socket.on("blog-approve", (data) => {
+        if (data.success) {
+          dispatch(notificationSuccess(data.data));
+        } else {
+          dispatch(notificationFailure(data));
+        }
+      })
+      socket.on("blog-update", (data) => {
+        if (data.success) {
+          dispatch(notificationSuccess(data.data));
+        } else {
+          dispatch(notificationFailure(data));
+        }
+      })
+
+      socket.on("apply-consultant", (data) => {
+        if (data.success) {
+          dispatch(notificationStart(data.data));
+        } else {
+          dispatch(notificationFailure(data));
+        }
+      })
+
+    } catch (error) {
+      dispatch(notificationFailure(error.message));
+    }
+
+
+  }, [currentUser, dispatch]);
+
 
   return <BrowserRouter>
     <ScrollToTop />
@@ -99,7 +101,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/categories" element={<Categories />} />
-
+      <Route path="/agencies" element={<AllCompanies />} />
       <Route element={<AlreadyLogin />}>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -126,7 +128,7 @@ export default function App() {
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
-      <Route path='/performance' element={<Performance/>}/>
+      <Route path='/performance' element={<Performance />} />
     </Routes>
     <Footer />
   </BrowserRouter>

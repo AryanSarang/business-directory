@@ -24,12 +24,12 @@ const Consultant = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [book, setBook] = useState(false)
 
-    function handleBook(){
+    function handleBook() {
         setBook(!book)
     }
 
-    function handleClose(e){
-        if(e.target.id === 'formDiv') handleBook()
+    function handleClose(e) {
+        if (e.target.id === 'formDiv') handleBook();
     }
 
     const toggleIsExpanded = () => {
@@ -106,47 +106,6 @@ const Consultant = () => {
     }, [consultantName]);
 
 
-    const refreshAccessToken = async (refreshToken) => {
-        const url = `https://oauth2.googleapis.com/token`;
-        const body = new URLSearchParams();
-        body.append('client_id', "1010475117617-8d7dbdv3jalhfbte64dar55ih0a19isc.apps.googleusercontent.com");
-        body.append('client_secret', "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");
-        body.append('refresh_token', refreshToken);
-        body.append('grant_type', 'refresh_token');
-    
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: body.toString(),
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                const newAccessToken = data.access_token;
-                const newExpiresIn = data.expires_in;
-    
-                // Update the tokens in local storage
-                localStorage.setItem('google', newAccessToken);
-                // Update the expiry time if you have it stored
-                const tokenExpiryTime = Date.now() + newExpiresIn * 1000;
-                localStorage.setItem('google_token_expiry', tokenExpiryTime.toString());
-    
-                return newAccessToken; // Return the new access token
-            } else {
-                const error = await response.json();
-                console.error('Error refreshing access token:', error);
-            }
-        } catch (error) {
-            console.error('Error refreshing access token:', error);
-        }
-    
-        return null; // Return null if there was an error
-    };
-    
-
 
 
     const handleChange = (e) => {
@@ -157,81 +116,6 @@ const Consultant = () => {
     }
     const handleBooking = async (e) => {
         e.preventDefault();
-
-        const createCalendarEvent = async (accessToken) => {
-            const expiryTime = localStorage.getItem('google_token_expiry');
-        
-            if (!expiryTime || Date.now() > parseInt(expiryTime)) {
-                const refreshToken = localStorage.getItem('google_refresh_token');
-                if (refreshToken) {
-                    const newAccessToken = await refreshAccessToken(refreshToken);
-                    if (newAccessToken) {
-                        accessToken = newAccessToken; // Update the access token
-                    } else {
-                        console.error("Failed to refresh access token. Please re-authenticate.");
-                        return;
-                    }
-                } else {
-                    console.error("No refresh token found. Please re-authenticate.");
-                    return;
-                }
-            }
-
-            try {
-                // Hardcoded start time (Tomorrow, 10:00 AM)
-                const startTime = new Date();
-                startTime.setDate(startTime.getDate() + 2); // Set to tomorrow
-                startTime.setHours(10, 0, 0); // 10:00 AM
-        
-                // Hardcoded end time (Tomorrow, 11:00 AM)
-                const endTime = new Date(startTime);
-                endTime.setHours(11, 0, 0); // 11:00 AM
-        
-                const event = {
-                    summary: 'Newsummary yo',
-                    description: 'This is a test event.',
-                    start: {
-                        dateTime: startTime.toISOString(),
-                        timeZone: 'America/Los_Angeles', // Adjust time zone as needed
-                    },
-                    end: {
-                        dateTime: endTime.toISOString(),
-                        timeZone: 'America/Los_Angeles',
-                    },
-                };
-        
-                const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(event),
-                });
-        
-                if (response.ok) {
-                    const eventData = await response.json();
-                    console.log('Google Calendar event created:', eventData);
-                } else {
-                    const error = await response.json();
-                    console.error('Error creating Google Calendar event:', error);
-                }
-            } catch (error) {
-                console.error('Error creating calendar event:', error);
-            }
-        
-            // Proceed with the API call using the (possibly refreshed) access token
-            // ... your code to create calendar event
-        };
-        
-        // Usage
-
-        const googletoken = localStorage.getItem('google');
-        if(googletoken){
-            createCalendarEvent(googletoken);
-        }
-            
-
         dispatch(clearError());
         try {
             dispatch(consulatantFormStart());
@@ -249,8 +133,6 @@ const Consultant = () => {
                 setStatus(data.message);
                 return;
             }
-
-
             if (data.success === true) {
                 setStatus("Thank you for booking, we have recieved your appointment and soon we will contact you.");
                 dispatch(consulatantFormSuccess());
@@ -259,7 +141,7 @@ const Consultant = () => {
             dispatch(consulatantFormFailure(error.message));
             setStatus(error.message);
         }
-        
+
     }
     var companiesName;
     if (consultant.companies && consultant.companies.length > 0) {
@@ -359,7 +241,7 @@ const Consultant = () => {
                         </Swiper>
 
                         <div className="my-9">
-                            <ConsultantPrice consultant={consultant} onClick={handleBook}/>
+                            <ConsultantPrice consultant={consultant} onClick={handleBook} />
                         </div>
                     </div>
                 </div>
@@ -368,57 +250,57 @@ const Consultant = () => {
                     <div className="md:w-[500px] w-auto">
                         <div className="bg-slate-200 border shadow-bg-slate-200 pb-4 rounded-lg">
 
-                        
-                        <span onClick={handleBook} 
-                        className="flex justify-end text-lg font-bold cursor-pointer hover:opacity-50 p-4">
-                            &#10005;
-                        </span>
-                        
-                        <div className="px-10">
+                            <div className="text-right p-3">
+                                <span onClick={handleBook}
+                                    className="text-lg font-bold cursor-pointer hover:opacity-50">
+                                    &#10005;
+                                </span>
+                            </div>
+                            <div className="px-10">
 
-                            <h4 className="mb-9  text-center text-xl md:text-2xl font-medium text-gray-900 gilroy-bold tracking-wide">Book an appointment with {firstName}</h4>
+                                <h4 className="mb-9  text-center text-xl md:text-2xl font-medium text-gray-900 gilroy-bold tracking-wide">Book an appointment with {firstName}</h4>
 
-                            <form className="md:w-full mx-auto" id="bookingForm" onSubmit={handleBooking}>
-                                <div className=''>
+                                <form className="md:w-full mx-auto" id="bookingForm" onSubmit={handleBooking}>
+                                    <div className=''>
 
-                                    <div className="w-full mb-5">
-                                        <label htmlFor="userPhone" className="block mb-2 text-md font-medium text-gray-900">Phone</label>
-                                        <div className="relative w-full">
-                                            <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                                <FaPhoneAlt />
-                                            </div>
-                                            <input type="tel" id="userPhone" required onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                                        <div className="w-full mb-5">
+                                            <label htmlFor="userPhone" className="block mb-2 text-md font-medium text-gray-900">Phone</label>
+                                            <div className="relative w-full">
+                                                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                                    <FaPhoneAlt />
+                                                </div>
+                                                <input type="tel" id="userPhone" required onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
                                 focus:border-blue-500 block w-full ps-10 p-2.5" defaultValue={currentUser && currentUser.phone} placeholder="9876543210" inputMode="numeric" pattern="[0-9]*" />
+                                            </div>
+                                        </div>
+                                        <div className="mb-5 w-full ">
+                                            <label htmlFor="appointmentDate" className="block mb-2 text-md font-medium text-gray-900">Date & Time</label>
+                                            <div className="relative datetimepickerDiv">
+                                                <DateTimePickerComponent required onChange={handleChange} format="dd-MMM-yy HH:mm" min={minDate} max={maxDate}
+                                                    placeholder="Choose a date and time" id="appointmentDate" />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="mb-5 w-full ">
-                                        <label htmlFor="appointmentDate" className="block mb-2 text-md font-medium text-gray-900">Date & Time</label>
-                                        <div className="relative datetimepickerDiv">
-                                            <DateTimePickerComponent required onChange={handleChange} format="dd-MMM-yy HH:mm" min={minDate} max={maxDate}
-                                                placeholder="Choose a date and time" id="appointmentDate" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mb-5">
-                                    <label htmlFor="userMessage" className="block mb-2 text-md font-medium text-gray-900">Message</label>
-                                    <textarea id="userMessage" onChange={handleChange} rows="4" className="block min-h-28 max-h-52 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
+                                    <div className="mb-5">
+                                        <label htmlFor="userMessage" className="block mb-2 text-md font-medium text-gray-900">Message</label>
+                                        <textarea id="userMessage" onChange={handleChange} rows="4" className="block min-h-28 max-h-52 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
                             border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder={`Write a message to ${firstName}`}></textarea>
-                                </div>
-                                {status &&
-                                    <div className='w-full mx-auto mb-9 bg-white py-3 px-4 md:px-1 rounded-lg'>
-                                        <p className='text-center text-green-500'>{status}</p>
+                                    </div>
+                                    {status &&
+                                        <div className='w-full mx-auto mb-9 bg-white py-3 px-4 md:px-1 rounded-lg'>
+                                            <p className='text-center text-green-500'>{status}</p>
 
-                                    </div>}
-                                {currentUser && (<button type="submit" disabled={loading} className={`w-full bg-slate-700 text-white p-2 px-5  rounded-lg
+                                        </div>}
+                                    {currentUser && (<button type="submit" disabled={loading} className={`w-full bg-slate-700 text-white p-2 px-5  rounded-lg
                         hover:opacity-90 disabled:opacity-80 tracking-wider`}>{loading ? "Booking..." : "Book appointment"}</button>)}
 
-                                <h5 className='my-5 '></h5>
-                            </form>
-                            <div className="md:w-1/2 mx-auto">
-                                {!currentUser && (<a href="/login"><button className="bg-slate-700 text-white p-2 px-5  rounded-lg
+                                    <h5 className='my-5 '></h5>
+                                </form>
+                                <div className="md:w-1/2 mx-auto">
+                                    {!currentUser && (<a href="/login"><button className="bg-slate-700 text-white p-2 px-5  rounded-lg
                         hover:opacity-90 disabled:opacity-80 tracking-wider">Log in to book appointment</button></a>)
-                                }
-                            </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>

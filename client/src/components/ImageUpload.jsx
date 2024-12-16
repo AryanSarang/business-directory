@@ -5,7 +5,7 @@ const ImageUpload = () => {
 
     return (
 
-        <div className="flex items-center justify-between w-full pt-2 pb-2">
+        <div className="flex items-center justify-center md:justify-between w-full gap-5 pt-2 pb-2">
             <svg
                 className="w-6 h-6 mb-4 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"

@@ -15,11 +15,11 @@ const Navbar = () => {
     const [showNotification, setShowNotification] = useState(false)
 
 
-    if(showNotification){
+    if (showNotification) {
         const seenNotification = async () => {
             try {
-                const res = await fetch('/api/user/seenotification',{
-                    method : 'POST',
+                const res = await fetch('/api/user/seenotification', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -27,7 +27,7 @@ const Navbar = () => {
 
                 });
                 const data = await res.json();
-                if(!data.success){
+                if (!data.success) {
                     console.log("error")
                 }
                 dispatch(notificationSuccess(data.data));
@@ -66,9 +66,9 @@ const Navbar = () => {
                 }
             }
             getAllNotifications();
-            
-           
-            
+
+
+
         }
 
     }, []);
@@ -87,13 +87,13 @@ const Navbar = () => {
         } catch (error) {
             dispatch(logOutUserFailure(data.message));
         }
-    }   
+    }
 
-    
+
 
     return (
         <nav className="bg-white ">
-            {currentUser? <Notifications showNotification={showNotification} onClose={() => setShowNotification(false)}/> : ''}
+            {currentUser ? <Notifications showNotification={showNotification} onClose={() => setShowNotification(false)} /> : ''}
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1 gilroy-bold text-md">
 
                 <div className="hidden w-full md:block md:w-auto" id="navbar-multi-level">
@@ -102,15 +102,13 @@ const Navbar = () => {
 
                         <li><Link to={"/allconsultants/All"} className="block  md:hover:text-slate-700 py-2 px-3  md:border-0 
                             md:p-0 text-black">
-                            All Consultant</Link>
+                            Consultants</Link>
                         </li>
-                        <li className="block cursor-pointer md:hover:text-slate-700 py-2 px-3 md:border-0 
-                             md:p-0 text-black"
-                            onClick={() => setShowNotification(!showNotification)}
-                             >
-                            <span>Inbox</span>{currentUser && currentUser.notification && <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium rounded-full bg-blue-900 text-white">{currentUser.notification.length - currentUser.seenNotification.length}</span>}
+                        <li><Link to={"/agencies"} className="block py-2 px-3 md:border-0 
+                            md:p-0 md:hover:text-slate-700 text-black">
+                            Agencies</Link>
+                        </li>
 
-                        </li>
                         <li className="relative navDropdown1">
                             <button className="text-black flex items-center focus:outline-none hover:text-gray-900">
                                 Categories
@@ -126,9 +124,12 @@ const Navbar = () => {
                             </div>
 
                         </li>
-                        <li><Link to={"/applyconsultant"} className="block py-2 px-3 md:border-0 
-                            md:p-0 md:hover:text-slate-700 text-black">
-                            Become a consultant</Link>
+                        <li className="block cursor-pointer md:hover:text-slate-700 py-2 px-3 md:border-0 
+                             md:p-0 text-black"
+                            onClick={() => setShowNotification(!showNotification)}
+                        >
+                            <span>Inbox</span>{currentUser && currentUser.notification && <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium rounded-full bg-blue-900 text-white">{currentUser.notification.length - currentUser.seenNotification.length}</span>}
+
                         </li>
                         {
                             currentUser ?

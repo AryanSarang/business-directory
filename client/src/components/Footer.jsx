@@ -36,7 +36,7 @@ const Footer = () => {
                             md:p-0">
                                 About</Link>
                             </li>
-                            <li><Link to={"/allbusiness"} className="block my-3 text-sm  pe-3 md:px-3  md:border-0 
+                            <li><Link to={"/contact"} className="block my-3 text-sm  pe-3 md:px-3  md:border-0 
                             md:p-0 ">
                                 Contact Us</Link>
                             </li>
@@ -58,11 +58,14 @@ const Footer = () => {
                                 Blogs</Link>
                             </li>
 
-                            <li><Link to={"/writeablog"} className="block text-sm  my-3 pe-3 md:px-3   md:border-0 
+                            <li><Link to={"/writeablog"} className="block text-sm text-nowrap my-3 pe-3 md:px-3   md:border-0 
                             md:p-0 ">
                                 Publish your blog</Link>
                             </li>
-
+                            <li><Link to={"/applyconsultant"} className="block text-nowrap text-sm  my-3 pe-3 md:px-3   md:border-0 
+                            md:p-0 ">
+                                Become a Consultant</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

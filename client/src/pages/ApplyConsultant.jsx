@@ -53,7 +53,7 @@ const ApplyConsultant = () => {
     }
 
     return (
-        <div className="pb-14 md:py-40 px-4 md:px-32 ">
+        <main className="pb-14 md:py-40 px-4 md:px-32 ">
             <h1 className='text-3xl md:text-5xl text-center font-semibold my-7 md:mb-24'>Become a consultant and <b className='gilroy-extraBold'> start earning</b></h1>
 
             <form className="md:w-1/2 mx-auto" onSubmit={handleSubmit}>
@@ -149,7 +149,7 @@ const ApplyConsultant = () => {
                 hover:opacity-90 disabled:opacity-80 tracking-wider">Log in to apply</button></a>)
                 }
             </div>
-        </div>
+        </main>
     )
 };
 

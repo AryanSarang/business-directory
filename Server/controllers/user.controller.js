@@ -37,6 +37,7 @@ export const updateUser = async (req, res, next) => {
             req.params.id,
             {
                 $set: {
+                    name: req.body.name,
                     username: req.body.username,
                     password: req.body.password,
                     avatar: req.body.avatar,
@@ -76,7 +77,7 @@ export const applyConsultant = async (req, res, next) => {
         const newConsultant = await Consultant({ ...req.body })
         await newConsultant.save();
         const admins = await User.find({ isAdmin: true }).select("-password");
-        
+
         admins.forEach(admin => {
             admin.notification.push({
                 type: 'apply-consultant',
@@ -92,8 +93,8 @@ export const applyConsultant = async (req, res, next) => {
 
         admins.forEach(admin => {
             admin.save().then(() => {
-                if(global.io && global.adminSockets[admin._id]){
-                    global.io.to(global.adminSockets[admin._id]).emit('apply-consultant',{
+                if (global.io && global.adminSockets[admin._id]) {
+                    global.io.to(global.adminSockets[admin._id]).emit('apply-consultant', {
                         success: true,
                         data: admin
                     })
@@ -101,7 +102,7 @@ export const applyConsultant = async (req, res, next) => {
             })
         })
 
-        
+
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -157,8 +158,13 @@ export const applyConsultant = async (req, res, next) => {
         };
         await transporter.sendMail(mailOptions);
 
-        for (const admin of admins){
-
+        for (const admin of admins) {
+            if (global.io && global.adminSockets && global.adminSockets[admin._id]) {
+                global.io.to(global.adminSockets[admin._id]).emit('admin-notification', {
+                    success: true,
+                    message: `New appointment booked: ${req.body.specialization}`,
+                });
+            }
             const mailOptions2 = {
                 from: process.env.EMAIL_USER,
                 to: admin.email,
@@ -269,9 +275,9 @@ export const bookAppointment = async (req, res, next) => {
 
         let indianDate = moment(req.body.appointmentDate).tz('Asia/Kolkata').format('llll');
         console.log(indianDate);
-    
-        
-        
+
+
+
 
 
         //consultant 
@@ -281,8 +287,6 @@ export const bookAppointment = async (req, res, next) => {
             timestamp: new Date()
         });
         await consultantUser.save();
-        
-        console.log("285");
 
 
         //user
@@ -306,9 +310,7 @@ export const bookAppointment = async (req, res, next) => {
         })
 
         await user.save();
-        console.log("309")
         if (global.io && global.userSockets[user._id]) {
-            console.log("user");
             global.io.to(global.userSockets[user._id]).emit('consultant-update', {
                 success: true,
                 data: user, // Add consultation data if applicable
@@ -316,16 +318,14 @@ export const bookAppointment = async (req, res, next) => {
         }
 
         if (global.io && global.consultantSockets[consultantUser._id]) {
-            console.log("consultant");
-            console.log("user",global.userSockets)
+            console.log("user", global.userSockets)
             global.io.to(global.consultantSockets[consultantUser._id]).emit('consultant-update', {
                 success: true,
                 data: consultantUser, // Add consultation data if applicable
             });
         }
-        
-        
-        console.log("328")
+
+
         //admin
         admins.forEach(admin => {
 
@@ -340,22 +340,20 @@ export const bookAppointment = async (req, res, next) => {
                     userPhone: req.body.userPhone
                 },
                 timestamp: new Date()
-                
+
             });
         })
-        admins.forEach(admin => { 
-            admin.save().then(() => { 
-                if (global.io && global.adminSockets[admin._id]) { 
+        admins.forEach(admin => {
+            admin.save().then(() => {
+                if (global.io && global.adminSockets[admin._id]) {
                     global.io.to(global.adminSockets[admin._id]).emit('consultant-update', {
                         success: true,
-                        data: admin, 
+                        data: admin,
                     });
                 }
             });
         });
 
-        
-        console.log("329")
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -434,8 +432,8 @@ export const submitBlog = async (req, res, next) => {
 
         admins.forEach(admin => {
             admin.save().then(() => {
-                if(global.io && global.adminSockets[admin._id]){
-                    global.io.to(global.adminSockets[admin._id]).emit('blog-approve',{
+                if (global.io && global.adminSockets[admin._id]) {
+                    global.io.to(global.adminSockets[admin._id]).emit('blog-approve', {
                         success: true,
                         data: admin
                     })
@@ -531,7 +529,7 @@ export const updateBlog = async (req, res, next) => {
     try {
         const { blogId, ...body } = req.body;
         const user = await User.findOne({ _id: req.body.userId }).select("-password");
-        if(user){
+        if (user) {
             const updatedBlog = await Blog.findByIdAndUpdate(blogId, body, {
                 new: true, // Return the updated document
                 runValidators: true, // Ensure validation runs on the updated fields
@@ -553,12 +551,12 @@ export const updateBlog = async (req, res, next) => {
 
             user.notification.push(userNotification);
             user.save().then(() => {
-            if (global.io && global.userSockets[user._id]) {
-                global.io.to(global.userSockets[user._id]).emit('blog-update', {
-                    success: true,
-                    data: user, // Add consultation data if applicable
-                });
-            }
+                if (global.io && global.userSockets[user._id]) {
+                    global.io.to(global.userSockets[user._id]).emit('blog-update', {
+                        success: true,
+                        data: user, // Add consultation data if applicable
+                    });
+                }
             });
 
             const mailOptions = {
@@ -614,16 +612,16 @@ export const updateBlog = async (req, res, next) => {
             res.json({ success: true, data: updatedBlog });
 
         }
-        else{
+        else {
             return res.json({
                 message: "Invalid User"
             })
         }
     }
-    catch(error){
+    catch (error) {
         next(error)
     }
-    
+
 }
 
 export const fetchConsultant = async (req, res, next) => {
@@ -647,7 +645,7 @@ export const updateConsultant = async (req, res, next) => {
             const user = await User.findById(userId);
             if (user.isConsultant) {
                 const body = req.body;
-                console.log(body)
+
                 await Consultant.findOneAndUpdate({ userId }, { $set: body }
                 )
                 res.status(200).json({
@@ -666,57 +664,57 @@ export const updateConsultant = async (req, res, next) => {
     }
 }
 
-export const getUserBlog = async(req, res, next) => {
+export const getUserBlog = async (req, res, next) => {
     try {
         const userId = req.user.id;
-        if(userId){
-            const blog = await Blog.find({userId});
+        if (userId) {
+            const blog = await Blog.find({ userId });
             res.json({
                 success: true,
                 data: blog
             })
         }
-        else{
+        else {
             res.json({
                 success: false,
                 message: "no blog available"
             })
-        }    
+        }
     } catch (error) {
         next(error);
     }
 }
-export const deleteBlog = async(req, res, next) => {
-    try{
-        const {id} = req.params;
-        if(id){
+export const deleteBlog = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (id) {
             const blog = await Blog.findByIdAndDelete(id);
-            if(blog){
+            if (blog) {
                 res.json({
                     success: true,
                     message: "deleted succesfully"
                 })
             }
         }
-        else{
+        else {
             res.json({
                 success: false,
                 message: "user not found"
             })
-        
+
         }
     }
-    catch(e){
+    catch (e) {
         next(e)
     }
 }
 
-export const seenNotification = async(req, res) => {
+export const seenNotification = async (req, res) => {
     try {
-        console.log(req.body)
+
         const userId = req.body.userId;
         const user = await User.findById(userId).select("-password");
-        if(user){
+        if (user) {
             if (user.notification && user.notification.length > 0) {
                 user.seenNotification = user.notification;
             }
@@ -734,7 +732,7 @@ export const seenNotification = async(req, res) => {
 }
 
 
-export const contactUs = async(req, res) => {
+export const contactUs = async (req, res) => {
     try {
         const body = req.body;
         await Contact.create(body);
@@ -789,6 +787,6 @@ export const contactUs = async(req, res) => {
         console.log(error)
         res.json({
             error
-        })   
+        })
     }
 }

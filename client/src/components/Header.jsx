@@ -2,10 +2,9 @@ import logo from '../assets/logo.png';
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
-import Drawer from './Drawer';
 import useWindowWidth from '../Miscellaneous/useWindowWidth';
 import { useEffect } from 'react';
-import Drawer2 from './Drawer2';
+import Drawer from './Drawer';
 
 
 
@@ -36,7 +35,7 @@ const Header = () => {
                 </Link>
 
                 <div className='my-auto'>
-                    {windowWidth >= 900 ? <Navbar /> : <Drawer2 />}
+                    {windowWidth >= 900 ? <Navbar /> : <Drawer />}
                 </div>
             </div>
         </header>

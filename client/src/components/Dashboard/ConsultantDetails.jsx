@@ -103,106 +103,113 @@ const ConsultantDetails = () => {
 
 
 
-    return <div className=" px-1 md:px-12 py-4 ">
-        <div className="flex justify-center font-bold text-lg">
+    return <div className=" p-5 md:px-12 py-4 bg-custom-white rounded-lg shadow-lg">
+        <div className="mb-5 flex justify-center font-bold text-lg">
             Consultant details
         </div>
         <form >
 
-            <div className="grid md:grid-cols-2   gap-y-4 gap-x-10">
+            <div className="md:flex justify-center gap-x-12 ">
+                <div className="flex flex-col gap-y-5 mb-5">
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Name:
                     </span>
                     <div className="mt-2">
                         <input type="text" id="name" onChange={handleChange} value={updatedConsultantData.name || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className="text-sm tracking-wide">
                         Phone
                     </span>
                     <div className="mt-2">
                         <input type="text" id="phone1" disabled value={updatedConsultantData.phone || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56  px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className="text-sm tracking-wide">
                         Specilization:
                     </span>
                     <div className="mt-2">
                         <input type="text" disabled value={updatedConsultantData.specialization || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
+                </div>
+                <div className="flex flex-col gap-y-5 mb-5">
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Fess per Consultation:
                     </span>
                     <div className="mt-2">
                         <input type="text" id="feesPerConsultation" onChange={handleChange} value={updatedConsultantData.feesPerConsultation || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className="text-sm tracking-wide">
                         LinkedIn:
                     </span>
                     <div className="mt-2">
                         <input type="text" id="linkedinUrl" onChange={handleChange} value={updatedConsultantData.linkedinUrl || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
+
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Min hour:
                     </span>
                     <div className="mt-2">
                         <input type="text" id="minHour" onChange={handleChange} value={updatedConsultantData.minHour || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
+                
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Order:
                     </span>
                     <div className="mt-2">
                         <input type="text" disabled value={updatedConsultantData.ordersNumber || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
+                </div>
+                <div className="flex flex-col gap-y-5 mb-5">
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className="text-sm tracking-wide">
                         Experience Year:
                     </span>
                     <div className="mt-2">
                         <input type="text" id="experienceYear"
                             onChange={handleChange} value={updatedConsultantData.experienceYear || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Experience:
                     </span>
                     <div className="mt-2">
                         <textarea type="text" id="experience" onChange={handleChange} value={updatedConsultantData.experience || ""}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300 h-36 resize-none"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300 h-24 resize-none"
                         />
                     </div>
                 </div>
                 <div>
-                    <span className="font-semibold text-sm tracking-wide">
+                    <span className=" text-sm tracking-wide">
                         Companies:
                     </span>
 
@@ -214,16 +221,17 @@ const ConsultantDetails = () => {
                                 </div>
                             )}
                             onChange={(e) => setValue(e.value)}
-                            className="w-full px-2 py-1 rounded-lg border border-slate-300"
+                            className="w-full min-w-56 px-2 py-1 rounded-lg border border-slate-300"
                         />
                     </div>
                 </div>
+                
                 {successMessage &&
                     <div className="border rounded-lg text-green-400 text-center py-2 ">
                         Details updated Sucessfully
                     </div>
                 }
-                <div className="flex justify-between gap-x-5">
+                <div className="flex justify-between gap-x-5 col-span-2 mt-6">
                     <button className="w-full py-2 px-3 text-slate-700 border border-slate-700 rounded-lg "
                         onClick={handleDiscard}
                     >
@@ -234,6 +242,7 @@ const ConsultantDetails = () => {
                     >
                         {loading ? "Submitting" : "Submit"}
                     </button>
+                </div>
                 </div>
             </div>
         </form>
